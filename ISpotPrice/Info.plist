@@ -51,5 +51,18 @@
 	<string>Because i want to know where you are!</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Because i always want to know where you are!</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>devweb.iazi.ch</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
 </dict>
 </plist>

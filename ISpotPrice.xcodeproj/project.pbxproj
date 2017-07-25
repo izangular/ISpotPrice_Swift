@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21C5C5004CA328DF218839DC /* Pods_ISpotPrice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7ADD6D6112F8AA89741226 /* Pods_ISpotPrice.framework */; };
 		FF1507D21F25ADC200E2AAF4 /* PropertyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1507D11F25ADC200E2AAF4 /* PropertyData.swift */; };
-		FF1507D51F25F5E100E2AAF4 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF1507D41F25F5E100E2AAF4 /* CoreLocation.framework */; };
+		FF1700E61F271AC4006B5130 /* gulfoss-waterfall-iceland-xlarge.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FF1700E51F271AC4006B5130 /* gulfoss-waterfall-iceland-xlarge.jpg */; };
 		FF419B751F24AE2600163E1A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF419B741F24AE2600163E1A /* AppDelegate.swift */; };
 		FF419B771F24AE2600163E1A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF419B761F24AE2600163E1A /* ViewController.swift */; };
 		FF419B7A1F24AE2600163E1A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF419B781F24AE2600163E1A /* Main.storyboard */; };
@@ -18,8 +19,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9E494DD47B62D48D0EFEB6CD /* Pods-ISpotPrice.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISpotPrice.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ISpotPrice/Pods-ISpotPrice.debug.xcconfig"; sourceTree = "<group>"; };
+		A3F0042925EDF97B95913931 /* Pods-ISpotPrice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISpotPrice.release.xcconfig"; path = "Pods/Target Support Files/Pods-ISpotPrice/Pods-ISpotPrice.release.xcconfig"; sourceTree = "<group>"; };
+		AF7ADD6D6112F8AA89741226 /* Pods_ISpotPrice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ISpotPrice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF1507D11F25ADC200E2AAF4 /* PropertyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyData.swift; sourceTree = "<group>"; };
-		FF1507D41F25F5E100E2AAF4 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		FF1700E51F271AC4006B5130 /* gulfoss-waterfall-iceland-xlarge.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "gulfoss-waterfall-iceland-xlarge.jpg"; sourceTree = "<group>"; };
 		FF419B711F24AE2600163E1A /* ISpotPrice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ISpotPrice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF419B741F24AE2600163E1A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FF419B761F24AE2600163E1A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -35,19 +39,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF1507D51F25F5E100E2AAF4 /* CoreLocation.framework in Frameworks */,
+				21C5C5004CA328DF218839DC /* Pods_ISpotPrice.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FF1507D31F25F5E100E2AAF4 /* Frameworks */ = {
+		69551103D976DF33A81C1A31 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FF1507D41F25F5E100E2AAF4 /* CoreLocation.framework */,
+				AF7ADD6D6112F8AA89741226 /* Pods_ISpotPrice.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		70D24DB2870C549AF2217B62 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9E494DD47B62D48D0EFEB6CD /* Pods-ISpotPrice.debug.xcconfig */,
+				A3F0042925EDF97B95913931 /* Pods-ISpotPrice.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		FF419B681F24AE2600163E1A = {
@@ -55,7 +68,8 @@
 			children = (
 				FF419B731F24AE2600163E1A /* ISpotPrice */,
 				FF419B721F24AE2600163E1A /* Products */,
-				FF1507D31F25F5E100E2AAF4 /* Frameworks */,
+				70D24DB2870C549AF2217B62 /* Pods */,
+				69551103D976DF33A81C1A31 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -70,6 +84,7 @@
 		FF419B731F24AE2600163E1A /* ISpotPrice */ = {
 			isa = PBXGroup;
 			children = (
+				FF1700E51F271AC4006B5130 /* gulfoss-waterfall-iceland-xlarge.jpg */,
 				FF419B741F24AE2600163E1A /* AppDelegate.swift */,
 				FF419B761F24AE2600163E1A /* ViewController.swift */,
 				FF419B781F24AE2600163E1A /* Main.storyboard */,
@@ -89,9 +104,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FF419B831F24AE2600163E1A /* Build configuration list for PBXNativeTarget "ISpotPrice" */;
 			buildPhases = (
+				5E567894746F60709E866908 /* [CP] Check Pods Manifest.lock */,
 				FF419B6D1F24AE2600163E1A /* Sources */,
 				FF419B6E1F24AE2600163E1A /* Frameworks */,
 				FF419B6F1F24AE2600163E1A /* Resources */,
+				DEAA1701B6505712D5E3110D /* [CP] Embed Pods Frameworks */,
+				6BB7B57B92F300037B0F3B59 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -144,11 +162,60 @@
 			files = (
 				FF419B7F1F24AE2600163E1A /* LaunchScreen.storyboard in Resources */,
 				FF419B7C1F24AE2600163E1A /* Assets.xcassets in Resources */,
+				FF1700E61F271AC4006B5130 /* gulfoss-waterfall-iceland-xlarge.jpg in Resources */,
 				FF419B7A1F24AE2600163E1A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5E567894746F60709E866908 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		6BB7B57B92F300037B0F3B59 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ISpotPrice/Pods-ISpotPrice-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DEAA1701B6505712D5E3110D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ISpotPrice/Pods-ISpotPrice-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FF419B6D1F24AE2600163E1A /* Sources */ = {
@@ -281,6 +348,7 @@
 		};
 		FF419B841F24AE2600163E1A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E494DD47B62D48D0EFEB6CD /* Pods-ISpotPrice.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = K46TQ3HVBR;
@@ -294,6 +362,7 @@
 		};
 		FF419B851F24AE2600163E1A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A3F0042925EDF97B95913931 /* Pods-ISpotPrice.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = K46TQ3HVBR;

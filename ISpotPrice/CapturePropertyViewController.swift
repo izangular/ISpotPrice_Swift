@@ -12,14 +12,17 @@ import MobileCoreServices
 
 class CapturePropertyViewController: UIViewController {
     
+    
     @IBOutlet weak var imageView: UIImageView!
     var propertyData = PropertyData()
     
-    //
     @IBOutlet weak var labelStreetZipTown: UILabel!
-    @IBOutlet weak var labelRating: UILabel!
     @IBOutlet weak var labelPrice: UILabel!
-    @IBOutlet weak var labelHouseType: UILabel!
+    @IBOutlet weak var labelRating: UILabel!
+    //
+//    @IBOutlet weak var labelRating: UILabel!
+//    @IBOutlet weak var labelPrice: UILabel!
+//    @IBOutlet weak var labelHouseType: UILabel!
     
     
     @IBAction func appraisePressed(_ sender: Any) {
@@ -45,6 +48,7 @@ class CapturePropertyViewController: UIViewController {
         
         if let jpgData = UIImageJPEGRepresentation(image, 1.0){
             imageView.image =  UIImage(data: jpgData)
+//            imageView.image?.withHorizontallyFlippedOrientation()
         }
         else {
             imageView.image = image
@@ -52,6 +56,7 @@ class CapturePropertyViewController: UIViewController {
         
         setPropertyData()
     }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,11 +72,11 @@ class CapturePropertyViewController: UIViewController {
     
     func setPropertyData()
     {
-        labelStreetZipTown.text = "\(String(describing: String(propertyData.street!))), \(String(describing: String(propertyData.zip!))) \(String(describing: propertyData.town!)) ( lat: \(String(propertyData.latitude!)), lon: \(String(propertyData.longitude!)) )"
-        
-        labelPrice.text = String(propertyData.price!)
-        labelRating.text = String(propertyData.microRating!)
-        labelHouseType.text = String(propertyData.propertyType!)
+        labelStreetZipTown.text = "\(String(describing: String(propertyData.street!))), \(String(describing: String(propertyData.zip!))) \(String(describing: propertyData.town!)) "//( lat: \(String(propertyData.latitude!)), lon: \(String(propertyData.longitude!)) )"
+//
+//        labelPrice.text = String(propertyData.price!)
+//        labelRating.text = String(propertyData.microRating!)
+//        labelHouseType.text = String(propertyData.propertyType!)
     }
 }
 

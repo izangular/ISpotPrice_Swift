@@ -26,6 +26,5 @@ class PropertyData {
     var renovationYear: Int?
     var buildYear: Int?
     
-    
 
 }

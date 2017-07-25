@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ISpotPrice/CapturePropertyViewController.swift"
-            timestampString = "522588169.133099"
+            timestampString = "522663981.426605"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
             landmarkName = "setPropertyData()"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,13 +26,61 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ISpotPrice/CapturePropertyViewController.swift"
-            timestampString = "522588900.767198"
+            timestampString = "522663981.426605"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
             landmarkName = "setPropertyData()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ISpotPrice/ViewController.swift"
+            timestampString = "522654512.831328"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
+            landmarkName = "callService()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ISpotPrice.ViewController.(callService () -&gt; ()).(closure #1)"
+                  moduleName = "ISpotPrice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/iaziwebdev/Desktop/ISpotPrice/ISpotPrice/ViewController.swift"
+                  timestampString = "522647642.84252"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "202"
+                  endingLineNumber = "202"
+                  offsetFromSymbolStart = "5900">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ISpotPrice.ViewController.(callService () -&gt; ()).(closure #1)"
+                  moduleName = "ISpotPrice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/iaziwebdev/Desktop/ISpotPrice/ISpotPrice/ViewController.swift"
+                  timestampString = "522647642.845408"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "202"
+                  endingLineNumber = "202"
+                  offsetFromSymbolStart = "6170">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

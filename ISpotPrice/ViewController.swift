@@ -12,6 +12,7 @@ import AVFoundation
 import MobileCoreServices
 import CoreLocation
 
+
 class ViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var imageView: UIImageView!
@@ -23,7 +24,11 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        
         getLocation()
+        
+        callTestService()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -119,6 +124,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
             propertyData.latitude = locationManager.location?.coordinate.latitude
             propertyData.longitude = locationManager.location?.coordinate.longitude
             setDataParameters()
+            callService()
             
             self.performSegue(withIdentifier: "capturePropertyView", sender: self)
         }
@@ -138,6 +144,95 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         propertyData.renovationYear = 0
         propertyData.roomNb = 2.5
         propertyData.surfaceLiving = 120
+    }
+    
+    func callTestService(){
+        let url = URL(string: "https://devweb.iazi.ch/Service.Report_2407/api/Image")
+        print ("In service")
+        
+        
+    }
+    
+    func callService(){
+        
+        
+        let url = URL(string: "https://devweb.iazi.ch/Service.Report_2407/api/Image/ImageProcessing")!
+        
+        var request = URLRequest(url: url)
+    
+        
+//        request.httpMethod = "POST"
+//        let postString = "imageBase64=\(propertyData.image!)&latitude=\(propertyData.latitude!)&longitude=\(propertyData.longitude!)"
+//        let postString = "imageBase64=uy&latitude=47.409123&longitude=8.546728"
+//        request.httpBody = postString.data(using: .utf8)
+//        request.timeoutInterval = 5000
+        let json: [String: Any] = ["imageBase64": "", "latitude": "47.409123", "longitude": "8.546728"]
+        var jsonData : Data
+        do{
+            jsonData = try JSONSerialization.data(withJSONObject: json)
+            request.httpBody = jsonData
+        } catch {
+            print("JSON serialization Failed")
+        }
+        
+        request.setValue("Content-Type", forHTTPHeaderField: "application/x-www-form-urlencoded")
+        
+//        request.setValue("imageBase64", forKey: "")
+//        request.setValue("latitude", forKey: "47.409123")
+//        request.setValue("longitude", forKey: "8.546728")
+        
+        let task = URLSession.shared.dataTask(with: request){ (data, response, error) in
+            
+            if error != nil {
+                print(error!)
+            } else {
+                if  let urlContent = data {
+                    
+                    do {
+                        let jsonResult = try JSONSerialization.jsonObject(with: urlContent, options: JSONSerialization.ReadingOptions.mutableContainers)
+                        
+                        print(jsonResult)
+//                        print(jsonResult["appraisedValue"])
+                        if let dictionary = jsonResult as? [String: AnyObject]{
+                            if let appraisalValue = dictionary["appraisalValue"] as? Int{
+                                self.propertyData.price = appraisalValue
+                            }
+                            
+                            if let category = dictionary["category"] as? String{
+                                self.propertyData.propertyType = category
+                            }
+                            
+//                            if let country = dictionary["country"] as? String{
+//                                self.propertyData.propertyType = category
+//                            }
+                            
+                            if let rating = dictionary["rating"] as? Double{
+                                self.propertyData.microRating = rating
+                            }
+                            
+                            if let street = dictionary["street"] as? String{
+                                self.propertyData.street = street
+                            }
+                            
+                            if let town = dictionary["town"] as? String{
+                                self.propertyData.town = town
+                            }
+                            
+                            if let zip = dictionary["zip"] as? String{
+                                self.propertyData.zip   = zip
+                            }
+                        }
+                        
+                        
+                    } catch {
+                        print("JSON Processing Failed")
+                    }
+                    
+                    
+                }
+            }
+        }
+        task.resume()
     }
     
     func encodeImageToBase64(image: UIImage) -> String{
@@ -168,10 +263,14 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
             alert.addAction(cancelAction)
             self.present(alert, animated: true, completion: nil)
         }
+        
+//        image.withHorizontallyFlippedOrientation()
     }
     
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController, didFinsishPickingMediaWithIfo info: [String: AnyObject]) {
         self.dismiss(animated: true, completion: nil)
+        
+        
     }
 }
 
