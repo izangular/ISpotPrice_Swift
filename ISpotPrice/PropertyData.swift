@@ -14,14 +14,14 @@ class PropertyData {
     var longitude: Double?
     
     var price: Int?
-    var microRating: Double?
+    var microRating: Float?
     var street: String?
     var zip: String?
     var town: String?
     var propertyType: String?
     
-    var surfaceLiving: Double?
-    var roomNb: Double?
+    var surfaceLiving: Float?
+    var roomNb: Float?
     var bathNb: Int?
     var renovationYear: Int?
     var buildYear: Int?

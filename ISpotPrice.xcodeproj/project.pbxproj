@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		21C5C5004CA328DF218839DC /* Pods_ISpotPrice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7ADD6D6112F8AA89741226 /* Pods_ISpotPrice.framework */; };
+		5843DCD5B389B09F893C0610 /* Pods_ISpotPrice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7ADD6D6112F8AA89741226 /* Pods_ISpotPrice.framework */; };
 		FF1507D21F25ADC200E2AAF4 /* PropertyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1507D11F25ADC200E2AAF4 /* PropertyData.swift */; };
 		FF1700E61F271AC4006B5130 /* gulfoss-waterfall-iceland-xlarge.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FF1700E51F271AC4006B5130 /* gulfoss-waterfall-iceland-xlarge.jpg */; };
 		FF419B751F24AE2600163E1A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF419B741F24AE2600163E1A /* AppDelegate.swift */; };
@@ -39,7 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				21C5C5004CA328DF218839DC /* Pods_ISpotPrice.framework in Frameworks */,
+				5843DCD5B389B09F893C0610 /* Pods_ISpotPrice.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

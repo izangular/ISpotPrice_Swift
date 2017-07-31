@@ -11,6 +11,7 @@ import UIKit
 import AVFoundation
 import MobileCoreServices
 import CoreLocation
+import Alamofire
 
 
 class ViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate {
@@ -23,13 +24,11 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        
+        //
         getLocation()
-        
-        callTestService()
-        
     }
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -146,12 +145,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         propertyData.surfaceLiving = 120
     }
     
-    func callTestService(){
-        let url = URL(string: "https://devweb.iazi.ch/Service.Report_2407/api/Image")
-        print ("In service")
-        
-        
-    }
+    
     
     func callService(){
         
@@ -206,7 +200,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
 //                                self.propertyData.propertyType = category
 //                            }
                             
-                            if let rating = dictionary["rating"] as? Double{
+                            if let rating = dictionary["rating"] as? Float{
                                 self.propertyData.microRating = rating
                             }
                             
@@ -236,7 +230,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
     }
     
     func encodeImageToBase64(image: UIImage) -> String{
-        let imageData: NSData = UIImagePNGRepresentation(image)! as NSData
+        let imageData: NSData = UIImageJPEGRepresentation(image, 1)! as NSData
         
         let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
         
