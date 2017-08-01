@@ -94,7 +94,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
 //        print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: Error){
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error){
         print("Error: \(error)")
     }
     
