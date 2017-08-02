@@ -9,21 +9,23 @@
 
 class PropertyData {
     
-    var image: String?
+    var imageBase64: String?
     var latitude: Double?
     var longitude: Double?
     
-    var price: Int?
-    var microRating: Float?
+    var appraisalValue: Double?
+    var rating: Double?
     var street: String?
     var zip: String?
     var town: String?
-    var propertyType: String?
+    var country: String?
+    var category: String?
+    var catCode: Int?
     
-    var surfaceLiving: Float?
-    var roomNb: Float?
+    var surfaceLiving: Double?
+    var landSurface: Double?
+    var roomNb: Double?
     var bathNb: Int?
-    var renovationYear: Int?
     var buildYear: Int?
     
 

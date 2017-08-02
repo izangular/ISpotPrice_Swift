@@ -10,7 +10,6 @@
 		5843DCD5B389B09F893C0610 /* Pods_ISpotPrice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7ADD6D6112F8AA89741226 /* Pods_ISpotPrice.framework */; };
 		FF1507D21F25ADC200E2AAF4 /* PropertyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1507D11F25ADC200E2AAF4 /* PropertyData.swift */; };
 		FF419B751F24AE2600163E1A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF419B741F24AE2600163E1A /* AppDelegate.swift */; };
-		FF419B771F24AE2600163E1A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF419B761F24AE2600163E1A /* ViewController.swift */; };
 		FF419B7A1F24AE2600163E1A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF419B781F24AE2600163E1A /* Main.storyboard */; };
 		FF419B7C1F24AE2600163E1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF419B7B1F24AE2600163E1A /* Assets.xcassets */; };
 		FF419B7F1F24AE2600163E1A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF419B7D1F24AE2600163E1A /* LaunchScreen.storyboard */; };
@@ -21,6 +20,9 @@
 		FFB2A20C1F30477100B153D0 /* image_48_48_grey_setting.png in Resources */ = {isa = PBXBuildFile; fileRef = FFB2A20B1F30477100B153D0 /* image_48_48_grey_setting.png */; };
 		FFB2A20E1F304AD100B153D0 /* image_48_48_blue_upload.png in Resources */ = {isa = PBXBuildFile; fileRef = FFB2A20D1F304AD100B153D0 /* image_48_48_blue_upload.png */; };
 		FFB2A2121F304B7B00B153D0 /* image_48_48_blue_star.png in Resources */ = {isa = PBXBuildFile; fileRef = FFB2A2111F304B7B00B153D0 /* image_48_48_blue_star.png */; };
+		FFBC9EB31F308859004996DE /* image_48_48_grey_appraise.png in Resources */ = {isa = PBXBuildFile; fileRef = FFBC9EB21F308859004996DE /* image_48_48_grey_appraise.png */; };
+		FFBC9EB51F3091ED004996DE /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBC9EB41F3091ED004996DE /* APIService.swift */; };
+		FFBC9EB71F3198C6004996DE /* UIOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBC9EB61F3198C6004996DE /* UIOverlay.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,7 +32,6 @@
 		FF1507D11F25ADC200E2AAF4 /* PropertyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyData.swift; sourceTree = "<group>"; };
 		FF419B711F24AE2600163E1A /* ISpotPrice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ISpotPrice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF419B741F24AE2600163E1A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FF419B761F24AE2600163E1A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		FF419B791F24AE2600163E1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FF419B7B1F24AE2600163E1A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FF419B7E1F24AE2600163E1A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -42,6 +43,9 @@
 		FFB2A20B1F30477100B153D0 /* image_48_48_grey_setting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = image_48_48_grey_setting.png; path = ../../../Downloads/image_48_48_grey_setting.png; sourceTree = "<group>"; };
 		FFB2A20D1F304AD100B153D0 /* image_48_48_blue_upload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = image_48_48_blue_upload.png; path = ../../../Downloads/image_48_48_blue_upload.png; sourceTree = "<group>"; };
 		FFB2A2111F304B7B00B153D0 /* image_48_48_blue_star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = image_48_48_blue_star.png; path = ../../../Downloads/image_48_48_blue_star.png; sourceTree = "<group>"; };
+		FFBC9EB21F308859004996DE /* image_48_48_grey_appraise.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = image_48_48_grey_appraise.png; path = ../../../Downloads/image_48_48_grey_appraise.png; sourceTree = "<group>"; };
+		FFBC9EB41F3091ED004996DE /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		FFBC9EB61F3198C6004996DE /* UIOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIOverlay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,13 +105,15 @@
 				FFB2A2071F3046C200B153D0 /* image_48_48_grey_star.png */,
 				FFB2A2051F2F4C1E00B153D0 /* house.jpg */,
 				FF419B741F24AE2600163E1A /* AppDelegate.swift */,
-				FF419B761F24AE2600163E1A /* ViewController.swift */,
 				FF419B781F24AE2600163E1A /* Main.storyboard */,
 				FF419B861F24B04500163E1A /* CapturePropertyViewController.swift */,
 				FF419B7B1F24AE2600163E1A /* Assets.xcassets */,
+				FFBC9EB21F308859004996DE /* image_48_48_grey_appraise.png */,
 				FF419B7D1F24AE2600163E1A /* LaunchScreen.storyboard */,
 				FF419B801F24AE2600163E1A /* Info.plist */,
 				FF1507D11F25ADC200E2AAF4 /* PropertyData.swift */,
+				FFBC9EB41F3091ED004996DE /* APIService.swift */,
+				FFBC9EB61F3198C6004996DE /* UIOverlay.swift */,
 			);
 			path = ISpotPrice;
 			sourceTree = "<group>";
@@ -184,6 +190,7 @@
 				FFB2A2081F3046C200B153D0 /* image_48_48_grey_star.png in Resources */,
 				FFB2A20C1F30477100B153D0 /* image_48_48_grey_setting.png in Resources */,
 				FF419B7A1F24AE2600163E1A /* Main.storyboard in Resources */,
+				FFBC9EB31F308859004996DE /* image_48_48_grey_appraise.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,9 +250,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF1507D21F25ADC200E2AAF4 /* PropertyData.swift in Sources */,
-				FF419B771F24AE2600163E1A /* ViewController.swift in Sources */,
 				FF419B751F24AE2600163E1A /* AppDelegate.swift in Sources */,
 				FF419B871F24B04500163E1A /* CapturePropertyViewController.swift in Sources */,
+				FFBC9EB71F3198C6004996DE /* UIOverlay.swift in Sources */,
+				FFBC9EB51F3091ED004996DE /* APIService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

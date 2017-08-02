@@ -20,6 +20,8 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
     
     var imagePicker: UIImagePickerController?
     var propertyData : PropertyData!
+    var authToken: String = ""
+    var authStatus: Int = -1
     
     // Outlets
     @IBOutlet weak var imageView: UIImageView!
@@ -30,6 +32,7 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
     @IBOutlet weak var sliderBuildYear: UISlider!
     @IBOutlet weak var sliderSurfaceLiving: UISlider!
     
+    @IBOutlet var rootView: UIView!
     // Events
     
     override func viewDidAppear(_ animated: Bool) {
@@ -41,7 +44,48 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+//        let overlay = UIView(frame: view.frame)
+//        overlay.backgroundColor = UIColor.black
+//        overlay.alpha = 0.8
+        
+//        let loading = showLoading(title: nil, message: "Please wait..")
+        
+//        view.addSubview(overlay)
+        
+        UIOverlay.shared.showOverlay(view: rootView)
+        
         getLocation()
+        
+//        getAuthToken { status, statusMessage, token in
+//            
+//            self.authToken = token
+//            self.authStatus = status
+//            
+//            if status == 0 {
+//                
+//                print("Authentication Success")
+//                    
+////                let apiServ = APIService()
+//                
+////                apiServ.callImageService(base64Image: "", latitude: 47.408934, longitude: 8.547593, authToken: self.authToken, completion: { (statusCode, zip, town, street, country, category, appraisalValue, rating, catCode) in
+////                        
+////                    print(street)
+////                })
+////                apiServ.callAppraiseService(surfaceLiving: 10, landSurface: 10, roomNb: 1, bathNb: 2, buildYear: 1900, microRating: 4.5, catCode: 5, zip: "8050", town: "Zurich", street: "Tramstrasse 10", country: "Switzerland", authToken: self.authToken, completion: { (statusCode, zip, town, street, country, category, appraisalValue, rating, catCode) in
+////                    
+////                    print(appraisalValue)
+////                })
+//            }
+//            else{
+//                print("Error: \(statusMessage)")
+//            }
+////            loading()
+////            overlay.removeFromSuperview()
+//            UIOverlay.shared.hideOverlayView()
+//        }
+        
+        UIOverlay.shared.hideOverlayView()
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -96,13 +140,15 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
             
             imageView.image = image
             propertyData = PropertyData()
-            propertyData.image = encodeImageToBase64(image: image)
-            propertyData.latitude = locationManager.location?.coordinate.latitude
-            propertyData.longitude = locationManager.location?.coordinate.longitude
-            setDataParameters()
-            callService()
+            let imageBase64 = encodeImageToBase64(image: image)
+//            propertyData.latitude = locationManager.location?.coordinate.latitude
+//            propertyData.longitude = locationManager.location?.coordinate.longitude
+//            setDataParameters()
+            
+            processImage(imageBase64: imageBase64)
         }
     }
+    
     
     func image(image: UIImage, didFinishSavingWithError error: NSErrorPointer, contextInfo: UnsafeRawPointer){
         
@@ -140,20 +186,30 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
     
     //Methods
     
-    func setDataParameters(){
-        propertyData.street = "Tramstrasse 10"
-        propertyData.zip = "8050"
-        propertyData.town = "Zurich"
+    func showLoading(title: String!, message: String) -> ()->() {
         
-        propertyData.microRating = 2.0
-        propertyData.propertyType = "House"
-        propertyData.price = 2000300
-        propertyData.bathNb = 2
-        propertyData.buildYear = 1990
-        propertyData.microRating = 5
-        propertyData.renovationYear = 0
-        propertyData.roomNb = 2.5
-        propertyData.surfaceLiving = 120
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        loadingIndicator.startAnimating()
+        
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
+        
+        return {
+            self.dismiss(animated: false, completion: nil)
+        }
+    }
+    
+    
+    func getAuthToken(completion: @escaping (_ status: Int, _ statusMessage: String, _ token: String)->()){
+        let apiService = APIService()
+        
+        apiService.callServiceAuth(completion: { status, statusMessage, token in
+            completion(status, statusMessage, token)
+        })
     }
     
     func getLocation(){
@@ -193,65 +249,6 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
         //        print("Location working")
     }
     
-    func callService(){
-        let url = "https://devweb.iazi.ch/Service.Report_2407/api/Image/ImageProcessing"
-        
-        let parameters: Parameters = ["imageBase64": propertyData.image!, "latitude": propertyData.latitude!, "longitude": propertyData.longitude!]
-        
-//        print(parameters)
-//        return
-        
-        Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON{ response in
-            print (response.request!)
-            print(response.response!)
-            print(response.result)
-            
-            if let jsonData = response.result.value{
-                print(jsonData)
-                
-//                do {
-//                    
-//                    if let dictionary = jsonData as? [String: AnyObject]{
-//                        print(dictionary)
-//                        if let appraisalValue = dictionary["appraisalValue"] as? Int{
-//                            self.propertyData.price = appraisalValue
-//                        }
-//                        
-//                        if let category = dictionary["category"] as? String{
-//                            self.propertyData.propertyType = category
-//                        }
-//                        
-//                        //                            if let country = dictionary["country"] as? String{
-//                        //                                self.propertyData.propertyType = category
-//                        //                            }
-//                        
-//                        if let rating = dictionary["rating"] as? Double{
-//                            self.propertyData.microRating = rating
-//                        }
-//                        
-//                        if let street = dictionary["street"] as? String{
-//                            self.propertyData.street = street
-//                        }
-//                        
-//                        if let town = dictionary["town"] as? String{
-//                            self.propertyData.town = town
-//                        }
-//                        
-//                        if let zip = dictionary["zip"] as? String{
-//                            self.propertyData.zip   = zip
-//                        }
-//                    }
-//                    
-//                    
-//                } catch {
-//                    print("JSON Processing Failed")
-//                }
-                
-            }
-            
-        }
-    }
-    
     func encodeImageToBase64(image: UIImage) -> String{
         let imageData: NSData = UIImageJPEGRepresentation(image, 1)! as NSData
         
@@ -285,6 +282,65 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
 ////        callService()
 //        setPropertyData()
 //    }
+    
+    func processImage(imageBase64: String){
+        
+        UIOverlay.shared.showOverlay(view: rootView)
+        
+        getAuthToken { status, statusMessage, token in
+            
+            self.authToken = token
+            self.authStatus = status
+            
+            if status == 0 {
+                
+                self.propertyData.imageBase64 = imageBase64
+                self.propertyData.latitude = 47.408934
+                self.propertyData.longitude = 8.547593
+                self.propertyData.surfaceLiving = 100
+                self.propertyData.landSurface = 500
+                self.propertyData.bathNb = 2
+                self.propertyData.buildYear = 1999
+                self.propertyData.roomNb = 3
+                
+                let apiServ = APIService()
+                
+                apiServ.callImageService(base64Image: self.propertyData.imageBase64!, latitude: self.propertyData.latitude!, longitude: self.propertyData.longitude!, authToken: self.authToken, completion: {
+                                                    (statusCode, zip, town, street, country, category, appraisalValue, rating, catCode) in
+                
+                    print(street)
+                    
+                    self.propertyData.zip = zip
+                    self.propertyData.town = town
+                    self.propertyData.street = street
+                    self.propertyData.country = country
+                    self.propertyData.category = category
+                    self.propertyData.rating = rating
+                    self.propertyData.appraisalValue = appraisalValue
+                    self.propertyData.catCode = catCode
+                    
+                })
+                //                apiServ.callAppraiseService(surfaceLiving: 10, landSurface: 10, roomNb: 1, bathNb: 2, buildYear: 1900, microRating: 4.5, catCode: 5, zip: "8050", town: "Zurich", street: "Tramstrasse 10", country: "Switzerland", authToken: self.authToken, completion: { (statusCode, zip, town, street, country, category, appraisalValue, rating, catCode) in
+                //
+                //                    print(appraisalValue)
+                //                })
+            }
+            else{
+                self.showMessageBox(title: "Error", message: "Authentication failure", preferredStyle: UIAlertControllerStyle.alert)
+            }
+            UIOverlay.shared.hideOverlayView()
+        }
+        
+    }
+    
+    func showMessageBox(title: String, message: String, preferredStyle: UIAlertControllerStyle){
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
+        alert.addAction(UIAlertAction(title: "Click", style: .default, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
+        
+    }
     
     func setPropertyData()
     {
