@@ -56,7 +56,7 @@
                                             <constraint firstAttribute="bottom" secondItem="Lal-lz-lKJ" secondAttribute="bottom" id="uSP-Ld-wbL"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Theodor-Heuss-Allee 2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nB6-RA-fb1">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Theodor-Heuss-Allee 2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nB6-RA-fb1" userLabel="LabelStreet">
                                         <rect key="frame" x="0.0" y="2" width="634" height="33.5"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                         <nil key="textColor"/>
@@ -74,7 +74,7 @@
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="28"/>
                                         </variation>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="60486 Frankfurt am Main" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="33h-Lm-VxQ">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="60486 Frankfurt am Main" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="33h-Lm-VxQ" userLabel="LabelZipTown">
                                         <rect key="frame" x="0.0" y="43.5" width="634" height="23.5"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                         <nil key="textColor"/>
@@ -142,9 +142,12 @@
                                         <rect key="frame" x="234.5" y="0.0" width="48" height="90"/>
                                         <state key="normal" image="image_48_48_grey_star.png"/>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ksF-5p-zbG">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ksF-5p-zbG" userLabel="ButtonAppraise">
                                         <rect key="frame" x="552.5" y="0.0" width="48" height="90"/>
                                         <state key="normal" image="image_48_48_grey_appraise.png"/>
+                                        <connections>
+                                            <action selector="buttonAppraisePressed:" destination="nu8-xp-cjs" eventType="touchUpInside" id="Dbv-Pd-Xk1"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.94549250602722168" green="0.9645160436630249" blue="0.9804004430770874" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -425,7 +428,10 @@
                     <connections>
                         <outlet property="imageView" destination="Bn2-po-7nv" id="tjQ-yy-RL3"/>
                         <outlet property="labelBuildYear" destination="738-U3-6kA" id="k7L-gh-aB7"/>
+                        <outlet property="labelPrice" destination="2nJ-82-gV3" id="AsG-et-kQ1"/>
+                        <outlet property="labelStreet" destination="nB6-RA-fb1" id="IW2-gw-Hhp"/>
                         <outlet property="labelSurfaceLiving" destination="UKJ-uS-2wa" id="O0w-KH-fX8"/>
+                        <outlet property="labelZipTown" destination="33h-Lm-VxQ" id="5mG-PR-QqX"/>
                         <outlet property="rootView" destination="PaE-cB-ZVh" id="Jyv-6M-Lmt"/>
                         <outlet property="sliderBuildYear" destination="B46-SV-ieJ" id="1ir-2u-s6I"/>
                         <outlet property="sliderSurfaceLiving" destination="VwV-FJ-dCv" id="420-bQ-1S8"/>

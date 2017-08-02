@@ -7,3 +7,5 @@ use_frameworks!
 target 'ISpotPrice' do
 	pod ‘Alamofire’, ‘~> 4.4’
 end
+
+pod ‘Bond’

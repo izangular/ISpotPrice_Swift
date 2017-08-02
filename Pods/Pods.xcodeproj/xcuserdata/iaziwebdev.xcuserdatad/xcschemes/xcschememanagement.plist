@@ -9,7 +9,22 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Bond.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Diff.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-ISpotPrice.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>ReactiveKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -17,12 +32,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>4E4E4CE89DCA8573AC3CEF80C199D4BE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FF91D6A1392689C7E40538467486DC1B</key>
+		<key>D3096BE0113DD75FE3546854BB47E644</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E1E21D3451445F65A5E1F3E63822111E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E302360E40D5D52920F569B2BC66BC2E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -12,6 +12,7 @@ import AVFoundation
 import MobileCoreServices
 import CoreLocation
 import Alamofire
+import ReactiveKit
 
 class CapturePropertyViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate {
     
@@ -33,6 +34,11 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
     @IBOutlet weak var sliderSurfaceLiving: UISlider!
     
     @IBOutlet var rootView: UIView!
+    
+    @IBOutlet weak var labelStreet: UILabel!
+    @IBOutlet weak var labelZipTown: UILabel!
+    @IBOutlet weak var labelPrice: UILabel!
+    
     // Events
     
     override func viewDidAppear(_ animated: Bool) {
@@ -106,7 +112,7 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
     
     /// Slider - SurfaceLiving
     @IBAction func sliderSurfaceLivingChanged(_ sender: Any) {
-        let step:Float = 0.5
+        let step:Float = 1
         
         let roundedValue = round(sliderSurfaceLiving.value / step) * step
         sliderSurfaceLiving.value = roundedValue
@@ -183,6 +189,11 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error){
         print("Error: \(error)")
     }
+    
+    @IBAction func buttonAppraisePressed(_ sender: Any) {
+        appraise()
+    }
+    
     
     //Methods
     
@@ -319,6 +330,9 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
                     self.propertyData.appraisalValue = appraisalValue
                     self.propertyData.catCode = catCode
                     
+                    self.labelStreet.text = street
+                    self.labelZipTown.text = "\(zip) \(town)"
+                    
                 })
                 //                apiServ.callAppraiseService(surfaceLiving: 10, landSurface: 10, roomNb: 1, bathNb: 2, buildYear: 1900, microRating: 4.5, catCode: 5, zip: "8050", town: "Zurich", street: "Tramstrasse 10", country: "Switzerland", authToken: self.authToken, completion: { (statusCode, zip, town, street, country, category, appraisalValue, rating, catCode) in
                 //
@@ -329,6 +343,57 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
                 self.showMessageBox(title: "Error", message: "Authentication failure", preferredStyle: UIAlertControllerStyle.alert)
             }
             UIOverlay.shared.hideOverlayView()
+        }
+        
+    }
+    
+    func appraise(){
+        
+//        UIOverlay.shared.showOverlay(view: rootView)
+        
+        getAuthToken { status, statusMessage, token in
+            
+            self.authToken = token
+            self.authStatus = status
+            
+            if status == 0 {
+                
+                self.propertyData.surfaceLiving =  Double(self.sliderSurfaceLiving.value)
+                self.propertyData.landSurface = 500
+                self.propertyData.bathNb = 2
+                self.propertyData.buildYear = Int(self.sliderBuildYear.value)
+                self.propertyData.roomNb = 3
+                
+                let apiServ = APIService()
+                
+                apiServ.callAppraiseService(surfaceLiving: self.propertyData.surfaceLiving!, landSurface: self.propertyData.landSurface!, roomNb: self.propertyData.roomNb!, bathNb: Double(self.propertyData.bathNb!), buildYear: self.propertyData.buildYear!, microRating: self.propertyData.rating!, catCode: self.propertyData.catCode!, zip: self.propertyData.zip!, town: self.propertyData.town!, street: self.propertyData.street!, country: self.propertyData.country!
+                    
+                    , authToken: self.authToken, completion: {
+                    (statusCode, zip, town, street, country, category, appraisalValue, rating, catCode) in
+                    
+                    print(street)
+                    
+//                    self.propertyData.zip = zip
+//                    self.propertyData.town = town
+//                    self.propertyData.street = street
+//                    self.propertyData.country = country
+//                    self.propertyData.category = category
+//                    self.propertyData.rating = rating
+                    self.propertyData.appraisalValue = appraisalValue
+//                    self.propertyData.catCode = catCode
+                    
+                        self.labelPrice.text = "\(String(self.propertyData.appraisalValue!)) CHF"
+                    
+                })
+                //                apiServ.callAppraiseService(surfaceLiving: 10, landSurface: 10, roomNb: 1, bathNb: 2, buildYear: 1900, microRating: 4.5, catCode: 5, zip: "8050", town: "Zurich", street: "Tramstrasse 10", country: "Switzerland", authToken: self.authToken, completion: { (statusCode, zip, town, street, country, category, appraisalValue, rating, catCode) in
+                //
+                //                    print(appraisalValue)
+                //                })
+            }
+            else{
+                self.showMessageBox(title: "Error", message: "Authentication failure", preferredStyle: UIAlertControllerStyle.alert)
+            }
+//            UIOverlay.shared.hideOverlayView()
         }
         
     }

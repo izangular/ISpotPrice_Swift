@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ISpotPrice/CapturePropertyViewController.swift"
-            timestampString = "523348677.33451"
+            timestampString = "523351550.599718"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "345"
-            endingLineNumber = "345"
+            startingLineNumber = "410"
+            endingLineNumber = "410"
             landmarkName = "setPropertyData()"
             landmarkType = "7">
          </BreakpointContent>
