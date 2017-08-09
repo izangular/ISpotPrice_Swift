@@ -13,18 +13,18 @@ import MobileCoreServices
 import CoreLocation
 import Alamofire
 import ReactiveKit
+import MapKit
 
-class CapturePropertyViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate {
+class CapturePropertyViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CLLocationManagerDelegate, MKMapViewDelegate {
     
     // Properties
     var locationManager = CLLocationManager()
     
     var imagePicker: UIImagePickerController?
-    var propertyData : PropertyData!
-    var authToken: String = ""
-    var authStatus: Int = -1
+    var propertyData = PropertyData()
     
     // Outlets
+    @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var labelBuildYear: UILabel!
@@ -49,49 +49,45 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-//        let overlay = UIView(frame: view.frame)
-//        overlay.backgroundColor = UIColor.black
-//        overlay.alpha = 0.8
-        
-//        let loading = showLoading(title: nil, message: "Please wait..")
-        
-//        view.addSubview(overlay)
-        
-        UIOverlay.shared.showOverlay(view: rootView)
-        
         getLocation()
+        initializeProperyDataAndBind()
+    }
+    
+    func initializeProperyDataAndBind(){
+        propertyData = PropertyData()
         
-//        getAuthToken { status, statusMessage, token in
-//            
-//            self.authToken = token
-//            self.authStatus = status
-//            
-//            if status == 0 {
-//                
-//                print("Authentication Success")
-//                    
-////                let apiServ = APIService()
-//                
-////                apiServ.callImageService(base64Image: "", latitude: 47.408934, longitude: 8.547593, authToken: self.authToken, completion: { (statusCode, zip, town, street, country, category, appraisalValue, rating, catCode) in
-////                        
-////                    print(street)
-////                })
-////                apiServ.callAppraiseService(surfaceLiving: 10, landSurface: 10, roomNb: 1, bathNb: 2, buildYear: 1900, microRating: 4.5, catCode: 5, zip: "8050", town: "Zurich", street: "Tramstrasse 10", country: "Switzerland", authToken: self.authToken, completion: { (statusCode, zip, town, street, country, category, appraisalValue, rating, catCode) in
-////                    
-////                    print(appraisalValue)
-////                })
-//            }
-//            else{
-//                print("Error: \(statusMessage)")
-//            }
-////            loading()
-////            overlay.removeFromSuperview()
-//            UIOverlay.shared.hideOverlayView()
-//        }
+        // Street
+        propertyData.street.bind(to: labelStreet)
+        combineLatest(propertyData.zip, propertyData.town){ zip, town in
+            return "\(zip ?? "") \(town ?? "")"
+        }
+        .bind(to: labelZipTown)
         
-        UIOverlay.shared.hideOverlayView()
+        //Zip & Town
+        propertyData.appraisalValue
+            .map{"\($0)"}
+            .bind(to: labelPrice)
         
+        //Build year
+        propertyData.buildYear
+            .map{ "Baujahr \(round($0/1.0)/1.0)"}
+            .bind(to: labelBuildYear)
+        
+        propertyData.buildYear.bidirectionalBind(to: sliderBuildYear.reactive.value)
+        
+        //Surface Living
+        propertyData.surfaceLiving
+            .map{ "Wohnflache \(round($0/1.0)/1.0)"}
+            .bind(to: labelSurfaceLiving)
+        
+        propertyData.surfaceLiving.bidirectionalBind(to: sliderSurfaceLiving.reactive.value)
+        
+        //Price
+        propertyData.appraisalValue
+            .map{ "\($0) CHF" }
+            .bind(to: labelPrice)
+        
+        print(propertyData.vSurfaceLiving)
     }
     
     override func didReceiveMemoryWarning() {
@@ -100,25 +96,25 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
     }
     
     /// Slider - Build year
-    @IBAction func sliderBuildYearChanged(_ sender: Any) {
-        
-        let step:Float = 1.0
-        
-        let roundedValue = round(sliderBuildYear.value / step) * step
-        sliderBuildYear.value = roundedValue
-        
-        labelBuildYear.text = "Baujahr: \(Int(sliderBuildYear.value))"
-    }
-    
-    /// Slider - SurfaceLiving
-    @IBAction func sliderSurfaceLivingChanged(_ sender: Any) {
-        let step:Float = 1
-        
-        let roundedValue = round(sliderSurfaceLiving.value / step) * step
-        sliderSurfaceLiving.value = roundedValue
-        
-        labelSurfaceLiving.text = "Wohnflache: \(sliderSurfaceLiving.value)"
-    }
+//    @IBAction func sliderBuildYearChanged(_ sender: Any) {
+//        
+//        let step:Float = 1.0
+//        
+//        let roundedValue = round(sliderBuildYear.value / step) * step
+//        sliderBuildYear.value = roundedValue
+//        
+//        labelBuildYear.text = "Baujahr: \(Int(sliderBuildYear.value))"
+//    }
+//    
+//    /// Slider - SurfaceLiving
+//    @IBAction func sliderSurfaceLivingChanged(_ sender: Any) {
+//        let step:Float = 1
+//        
+//        let roundedValue = round(sliderSurfaceLiving.value / step) * step
+//        sliderSurfaceLiving.value = roundedValue
+//        
+//        labelSurfaceLiving.text = "Wohnflache: \(sliderSurfaceLiving.value)"
+//    }
     
     /// Camera
     @IBAction func cameraPressed(_ sender: Any) {
@@ -145,12 +141,15 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
             let image = info[UIImagePickerControllerOriginalImage] as! UIImage
             
             imageView.image = image
-            propertyData = PropertyData()
-            let imageBase64 = encodeImageToBase64(image: image)
-//            propertyData.latitude = locationManager.location?.coordinate.latitude
-//            propertyData.longitude = locationManager.location?.coordinate.longitude
-//            setDataParameters()
             
+            let imageBase64 = encodeImageToBase64(image: image)
+            
+            initializeProperyDataAndBind()
+            
+            propertyData.imageBase64.next(imageBase64)
+//            propertyData.latitude.next((locationManager.location?.coordinate.latitude)!)
+//            propertyData.latitude.next((locationManager.location?.coordinate.longitude)!)
+
             processImage(imageBase64: imageBase64)
         }
     }
@@ -167,8 +166,6 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
             alert.addAction(cancelAction)
             self.present(alert, animated: true, completion: nil)
         }
-        
-        //        image.withHorizontallyFlippedOrientation()
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController, didFinsishPickingMediaWithIfo info: [String: AnyObject]) {
@@ -296,53 +293,34 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
     
     func processImage(imageBase64: String){
         
-        UIOverlay.shared.showOverlay(view: rootView)
-        
         getAuthToken { status, statusMessage, token in
             
-            self.authToken = token
-            self.authStatus = status
+            self.propertyData.authToken = token
+            self.propertyData.authStatus = status
             
             if status == 0 {
                 
-                self.propertyData.imageBase64 = imageBase64
-                self.propertyData.latitude = 47.408934
-                self.propertyData.longitude = 8.547593
-                self.propertyData.surfaceLiving = 100
-                self.propertyData.landSurface = 500
-                self.propertyData.bathNb = 2
-                self.propertyData.buildYear = 1999
-                self.propertyData.roomNb = 3
+//                self.propertyData.imageBase64.next(imageBase64)
+//                self.propertyData.latitude.next(47.408934)
+//                self.propertyData.longitude.next(8.547593)
+//                self.propertyData.surfaceLiving.next(100)
+//                self.propertyData.landSurface.next(500)
+//                self.propertyData.bathNb.next(2)
+//                self.propertyData.buildYear.next(1999)
+//                self.propertyData.roomNb.next(3)
                 
                 let apiServ = APIService()
                 
-                apiServ.callImageService(base64Image: self.propertyData.imageBase64!, latitude: self.propertyData.latitude!, longitude: self.propertyData.longitude!, authToken: self.authToken, completion: {
-                                                    (statusCode, zip, town, street, country, category, appraisalValue, rating, catCode) in
+                apiServ.callImageService(propertyData: self.propertyData, completion: {
+                                                    (statusCode) in
                 
-                    print(street)
-                    
-                    self.propertyData.zip = zip
-                    self.propertyData.town = town
-                    self.propertyData.street = street
-                    self.propertyData.country = country
-                    self.propertyData.category = category
-                    self.propertyData.rating = rating
-                    self.propertyData.appraisalValue = appraisalValue
-                    self.propertyData.catCode = catCode
-                    
-                    self.labelStreet.text = street
-                    self.labelZipTown.text = "\(zip) \(town)"
+                    print(self.propertyData.vStreet)
                     
                 })
-                //                apiServ.callAppraiseService(surfaceLiving: 10, landSurface: 10, roomNb: 1, bathNb: 2, buildYear: 1900, microRating: 4.5, catCode: 5, zip: "8050", town: "Zurich", street: "Tramstrasse 10", country: "Switzerland", authToken: self.authToken, completion: { (statusCode, zip, town, street, country, category, appraisalValue, rating, catCode) in
-                //
-                //                    print(appraisalValue)
-                //                })
             }
             else{
                 self.showMessageBox(title: "Error", message: "Authentication failure", preferredStyle: UIAlertControllerStyle.alert)
             }
-            UIOverlay.shared.hideOverlayView()
         }
         
     }
@@ -353,25 +331,22 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
         
         getAuthToken { status, statusMessage, token in
             
-            self.authToken = token
-            self.authStatus = status
+            self.propertyData.authToken = token
+            self.propertyData.authStatus = status
             
             if status == 0 {
                 
-                self.propertyData.surfaceLiving =  Double(self.sliderSurfaceLiving.value)
-                self.propertyData.landSurface = 500
-                self.propertyData.bathNb = 2
-                self.propertyData.buildYear = Int(self.sliderBuildYear.value)
-                self.propertyData.roomNb = 3
+//                self.propertyData.surfaceLiving =  Double(self.sliderSurfaceLiving.value)
+//                self.propertyData.landSurface = 500
+//                self.propertyData.bathNb = 2
+//                self.propertyData.buildYear = Int(self.sliderBuildYear.value)
+//                self.propertyData.roomNb = 3
                 
                 let apiServ = APIService()
                 
-                apiServ.callAppraiseService(surfaceLiving: self.propertyData.surfaceLiving!, landSurface: self.propertyData.landSurface!, roomNb: self.propertyData.roomNb!, bathNb: Double(self.propertyData.bathNb!), buildYear: self.propertyData.buildYear!, microRating: self.propertyData.rating!, catCode: self.propertyData.catCode!, zip: self.propertyData.zip!, town: self.propertyData.town!, street: self.propertyData.street!, country: self.propertyData.country!
+                apiServ.callAppraiseService(propertyData: self.propertyData, completion: { (statusCode) in
                     
-                    , authToken: self.authToken, completion: {
-                    (statusCode, zip, town, street, country, category, appraisalValue, rating, catCode) in
-                    
-                    print(street)
+                    print(self.propertyData.vStreet)
                     
 //                    self.propertyData.zip = zip
 //                    self.propertyData.town = town
@@ -379,16 +354,12 @@ class CapturePropertyViewController: UIViewController, UINavigationControllerDel
 //                    self.propertyData.country = country
 //                    self.propertyData.category = category
 //                    self.propertyData.rating = rating
-                    self.propertyData.appraisalValue = appraisalValue
+//                    self.propertyData.appraisalValue = appraisalValue
 //                    self.propertyData.catCode = catCode
                     
-                        self.labelPrice.text = "\(String(self.propertyData.appraisalValue!)) CHF"
+//                        self.labelPrice.text = "\(String(self.propertyData.appraisalValue!)) CHF"
                     
                 })
-                //                apiServ.callAppraiseService(surfaceLiving: 10, landSurface: 10, roomNb: 1, bathNb: 2, buildYear: 1900, microRating: 4.5, catCode: 5, zip: "8050", town: "Zurich", street: "Tramstrasse 10", country: "Switzerland", authToken: self.authToken, completion: { (statusCode, zip, town, street, country, category, appraisalValue, rating, catCode) in
-                //
-                //                    print(appraisalValue)
-                //                })
             }
             else{
                 self.showMessageBox(title: "Error", message: "Authentication failure", preferredStyle: UIAlertControllerStyle.alert)

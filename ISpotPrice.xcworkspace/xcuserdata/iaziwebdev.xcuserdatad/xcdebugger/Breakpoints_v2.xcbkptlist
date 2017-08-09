@@ -9,13 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ISpotPrice/APIService.swift"
-            timestampString = "523342413.009358"
+            filePath = "ISpotPrice/CapturePropertyViewController.swift"
+            timestampString = "523860192.501166"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "callServiceAuth(completion:)"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "initializeProperyDataAndBind()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,44 +25,87 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ISpotPrice/APIService.swift"
-            timestampString = "523342413.009358"
+            filePath = "ISpotPrice/PropertyViewController.swift"
+            timestampString = "523538238.216395"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
-            landmarkName = "callServiceAuth(completion:)"
-            landmarkType = "7">
+            startingLineNumber = "12"
+            endingLineNumber = "12">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "ISpotPrice.APIService.(callServiceAuth (completion : (ISpotPrice.APIStatus) -&gt; ()) -&gt; ()).(closure #1)"
+                  symbolName = "ISpotPrice.PropertyViewController.__deallocating_deinit"
                   moduleName = "ISpotPrice"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/iaziwebdev/Desktop/ISpotPrice/ISpotPrice/APIService.swift"
-                  timestampString = "523341592.506423"
+                  urlString = "file:///Users/iaziwebdev/Desktop/ISpotPrice/ISpotPrice/PropertyViewController.swift"
+                  timestampString = "523538239.301396"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "66"
-                  endingLineNumber = "66"
-                  offsetFromSymbolStart = "1750">
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "4">
                </Location>
                <Location
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "ISpotPrice.APIService.(callServiceAuth (completion : (ISpotPrice.APIStatus) -&gt; ()) -&gt; ()).(closure #1)"
+                  symbolName = "ISpotPrice.PropertyViewController.init (nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; ISpotPrice.PropertyViewController"
                   moduleName = "ISpotPrice"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/iaziwebdev/Desktop/ISpotPrice/ISpotPrice/APIService.swift"
-                  timestampString = "523341592.50801"
+                  urlString = "file:///Users/iaziwebdev/Desktop/ISpotPrice/ISpotPrice/PropertyViewController.swift"
+                  timestampString = "523538239.303866"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "66"
-                  endingLineNumber = "66"
-                  offsetFromSymbolStart = "2213">
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "57">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ISpotPrice.PropertyViewController.__allocating_init (nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; ISpotPrice.PropertyViewController"
+                  moduleName = "ISpotPrice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/iaziwebdev/Desktop/ISpotPrice/ISpotPrice/PropertyViewController.swift"
+                  timestampString = "523538239.305965"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "23">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ISpotPrice.PropertyViewController.__allocating_init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;ISpotPrice.PropertyViewController&gt;"
+                  moduleName = "ISpotPrice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/iaziwebdev/Desktop/ISpotPrice/ISpotPrice/PropertyViewController.swift"
+                  timestampString = "523538239.307787"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "4">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ISpotPrice.PropertyViewController.init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;ISpotPrice.PropertyViewController&gt;"
+                  moduleName = "ISpotPrice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/iaziwebdev/Desktop/ISpotPrice/ISpotPrice/PropertyViewController.swift"
+                  timestampString = "523538239.309421"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "19">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -73,13 +116,91 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ISpotPrice/CapturePropertyViewController.swift"
-            timestampString = "523351550.599718"
+            filePath = "ISpotPrice/PickerViewController.swift"
+            timestampString = "523732401.055683"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "334"
-            endingLineNumber = "334"
-            landmarkName = "processImage(imageBase64:)"
+            startingLineNumber = "13"
+            endingLineNumber = "13"
+            landmarkName = "PickerViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ISpotPrice.PickerViewController.selectedYear.getter : Swift.Optional&lt;Swift.Int&gt;"
+                  moduleName = "ISpotPrice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/iaziwebdev/Desktop/ISpotPrice/ISpotPrice/PickerViewController.swift"
+                  timestampString = "523732404.314182"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "26">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ISpotPrice.PickerViewController.selectedYear.setter : Swift.Optional&lt;Swift.Int&gt;"
+                  moduleName = "ISpotPrice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/iaziwebdev/Desktop/ISpotPrice/ISpotPrice/PickerViewController.swift"
+                  timestampString = "523732404.316092"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "52">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ISpotPrice.PickerViewController.init (nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; ISpotPrice.PickerViewController"
+                  moduleName = "ISpotPrice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/iaziwebdev/Desktop/ISpotPrice/ISpotPrice/PickerViewController.swift"
+                  timestampString = "523732404.317694"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "84">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ISpotPrice.PickerViewController.init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;ISpotPrice.PickerViewController&gt;"
+                  moduleName = "ISpotPrice"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/iaziwebdev/Desktop/ISpotPrice/ISpotPrice/PickerViewController.swift"
+                  timestampString = "523732404.319208"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "44">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ISpotPrice/CameraViewController.swift"
+            timestampString = "523889305.095374"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "viewWillTransition(to:with:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

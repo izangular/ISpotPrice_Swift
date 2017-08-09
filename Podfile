@@ -6,6 +6,13 @@ use_frameworks!
 
 target 'ISpotPrice' do
 	pod ‘Alamofire’, ‘~> 4.4’
-end
 
-pod ‘Bond’
+	pod ‘ReactiveKit’
+#	pod ‘ReactiveUIKit’, ‘~> 2.0’
+	pod ‘Bond’
+	
+	pod ‘Cosmos’, ‘~> 11.0’
+	pod ‘Validator’
+
+	pod ’SwiftOverlays’, ‘~> 3.0.0’
+end
