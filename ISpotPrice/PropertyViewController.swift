@@ -10,12 +10,14 @@ import UIKit
 import MapKit
 import ReactiveKit
 import Bond
+import SwiftOverlays
 
-class PropertyViewController: UIViewController, MKMapViewDelegate {
+class PropertyViewController: UIViewController, MKMapViewDelegate, UIScrollViewDelegate {
     
     // Properties
     var propertyInfo = PropertyInfo()
     var image: UIImage!
+    var coordinates = CLLocationCoordinate2D()
     
     // Outlets
     @IBOutlet weak var mapView: MKMapView!
@@ -23,18 +25,37 @@ class PropertyViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var labelSurfaceLiving: UILabel!
     @IBOutlet weak var labelRoomNumber: UILabel!
     @IBOutlet weak var labelYear: UILabel!
+    @IBOutlet weak var labelPropertyType: UILabel!
+    @IBOutlet weak var labelLift: UILabel!
     
     @IBOutlet weak var sliderSurfaceLiving: UISlider!
     @IBOutlet weak var sliderRoomNumber: UISlider!
     
     @IBOutlet weak var imageView: UIImageView!
+
+    @IBOutlet weak var buttonEstimate: UIButton!
+    
+    @IBOutlet weak var labelAddress: UILabel!
+    @IBOutlet weak var labelAppraisalValue: UILabel!
+    @IBOutlet weak var segmentedPropertyCategory: UISegmentedControl!
+    
+    
+    @IBOutlet weak var viewFloat: UIView!
+    @IBOutlet weak var viewHeader: UIView!
+    @IBOutlet weak var viewImageContainer: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        bindData()
         
+        buttonEstimate.isEnabled = false
+        if image != nil {
+            loadData()
+            loadFloatingView()
+        }
+        
+        self.view.bringSubview(toFront: viewHeader)
     }
     
     @IBAction func backButtonPressed(_ sender: Any) {
@@ -47,18 +68,97 @@ class PropertyViewController: UIViewController, MKMapViewDelegate {
         self.present(settingsView, animated: false, completion: nil)
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView){
+        
+//        print("\(scrollView.contentOffset.y)")
+        
+        let curScrollY = scrollView.contentOffset.y
+        
+        if curScrollY > viewImageContainer.frame.size.height {
+            viewFloat.isHidden = false
+        } else {
+            viewFloat.isHidden = true
+        }
+    }
+    
+    func loadFloatingView() {
+        
+        
+        let floatingView = storyboard?.instantiateViewController(withIdentifier: "FloatViewController") as! FloatViewController
+        
+        floatingView.propertyInfo = propertyInfo
+        floatingView.view.frame = viewFloat.bounds
+        
+        viewFloat.addSubview(floatingView.view)
+        addChildViewController(floatingView)
+        floatingView.didMove(toParentViewController: self)
+    }
+    
+    func loadData()
+    {
+        SwiftOverlays.showBlockingWaitOverlay()
+        
+        bindData()
+        
+        setMapView()
+        
+        let apiService = APIService();
+        
+        apiService.callOfferedRentDefaultService(propertyData: propertyInfo) { (status) in
+            
+            if status == 0 {
+                self.buttonEstimate.isEnabled = true
+            }
+            
+            SwiftOverlays.removeAllBlockingOverlays()
+        }
+    }
+    
+    func estimate()
+    {
+        SwiftOverlays.showBlockingWaitOverlay()
+        
+        
+        let apiService = APIService();
+        
+        apiService.callOfferedRentService(propertyData: propertyInfo) { (status) in
+            
+            if status == 0 {
+                print("Enabled")
+                self.buttonEstimate.isEnabled = true
+            }
+            
+            SwiftOverlays.removeAllBlockingOverlays()
+        }
+    }
+    
     func bindData()
     {
         propertyInfo = PropertyInfo()
         
-        propertyInfo.imageBase64.next(encodeImageToBase64(image: image!))
+        if let imageData = UIImageJPEGRepresentation(image, 1.0) {
+            let base64Image = imageData.base64EncodedString()
+            
+            propertyInfo.imageBase64String = base64Image
+            
+//            propertyInfo.imageBase64 = base64Image as NSData
+        }
+        
         imageView.image = image
         
-        //        sliderValuebidirectionalBind(to: sliderSurfaceLiving.reactive.value)
-        //Surface living
-        propertyInfo.surfaceLiving.map{ round($0/1)/1}.bind(to: sliderSurfaceLiving)
-        sliderSurfaceLiving.reactive.value.map{round($0/1)/1}.bind(to: propertyInfo.surfaceLiving)
-        propertyInfo.surfaceLiving.map{ $0.roundedValueToString }.bind(to: labelSurfaceLiving)
+        //address
+        combineLatest(propertyInfo.street, propertyInfo.zip, propertyInfo.town){ street, zip, town in
+            return "\(street), \(zip) \(town)"
+            }
+            .bind(to: labelAddress)
+        
+        // appraised value
+        propertyInfo.appraisalValue.map{"\($0)"}.bind(to: labelAppraisalValue)
+        
+        //Surface Contract
+        propertyInfo.surfaceContract.map{ round($0/1)/1}.bind(to: sliderSurfaceLiving)
+        sliderSurfaceLiving.reactive.value.map{round($0/1)/1}.bind(to: propertyInfo.surfaceContract)
+        propertyInfo.surfaceContract.map{ $0.roundedValueToString }.bind(to: labelSurfaceLiving)
         
         // Room number
         propertyInfo.roomNb.map{ round($0/0.5)*0.5}.bind(to: sliderRoomNumber)
@@ -68,29 +168,195 @@ class PropertyViewController: UIViewController, MKMapViewDelegate {
         // Build year
         propertyInfo.buildYear.map{ "\($0)" }.bind(to: labelYear)
         
+        // Property type
+        propertyInfo.propertyTypeCodeText.bind(to: labelPropertyType)
+        
+        // Lift
+        propertyInfo.liftText.bind(to: labelLift)
+        
+        //coordinates
+//        propertyInfo.latitude.next(coordinates.latitude as Double)
+//        propertyInfo.longitude.next(coordinates.longitude as Double)
+        
+//        print(propertyInfo.latitude.value)
+//        print(propertyInfo.longitude.value)
+        
+        // propertyCategory
+        propertyInfo.catCode.map{
+            switch $0 {
+            case 5:
+                return 0
+            case 6:
+                return 1
+            default:
+                return 0
+            }
+            }.bind(to: segmentedPropertyCategory.reactive.selectedSegmentIndex)
+        segmentedPropertyCategory.reactive.selectedSegmentIndex.map{
+            switch $0 {
+            case 0:
+                return 5
+            case 1:
+                return 6
+            default:
+                return 0
+            }
+        }.bind(to: propertyInfo.catCode)
+//
+//        segmentedPropertyCategory.reactive.map {
+//            switch $0 {
+//            case 0:
+//                return 5
+//            case 1:
+//                return 6
+//            }
+//        }.bind(propertyInfo.catCode)
     }
 
-    
-    @IBAction func buttonShowYearPickerPressed(_ sender: Any) {
+    func setMapView()
+    {
+        let annotation = MKPointAnnotation()
+            
+        mapView.addAnnotation(annotation)
         
-        let myYearPickerView = storyboard?.instantiateViewController(withIdentifier: "PickerViewController") as! PickerViewController
-
-        myYearPickerView.modalTransitionStyle = .coverVertical
-        myYearPickerView.modalPresentationStyle = .overCurrentContext
+        let latitude = self.coordinates.latitude
+        let longitude = self.coordinates.longitude
+        let lanDelta: CLLocationDegrees = 0.05
+        let lonDelta: CLLocationDegrees = 0.05
+            
+        let span = MKCoordinateSpan(latitudeDelta: lanDelta, longitudeDelta: lonDelta)
+            
+        let coordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            
+        let region = MKCoordinateRegion(center: coordinates, span: span)
+            
+        mapView.setRegion(region, animated: true)
+            
+        annotation.title = "You are here"
+            
+        annotation.coordinate = coordinates
+    }
+    
+    
+    @IBAction func buttonShowPropertyTypePressed(_ sender: Any) {
+        
+        let pickerView = storyboard?.instantiateViewController(withIdentifier: "PickerViewController") as! PickerViewController
+        
+        pickerView.modalTransitionStyle = .coverVertical
+        pickerView.modalPresentationStyle = .overCurrentContext
+        
+        //
+        pickerView.inputList = [PickerKeyValue]()
+        pickerView.inputList.append(PickerKeyValue(key: "21", text: "Normal Flat"))
+        pickerView.inputList.append(PickerKeyValue(key: "15", text: "Furnished Aparment"))
+        pickerView.inputList.append(PickerKeyValue(key: "13", text: "Duplex"))
+        pickerView.inputList.append(PickerKeyValue(key: "1099", text: "Terrace Apartment"))
+        pickerView.inputList.append(PickerKeyValue(key: "2", text: "Penthouse"))
+        pickerView.inputList.append(PickerKeyValue(key: "5", text: "Attic"))
+        pickerView.inputList.append(PickerKeyValue(key: "16", text: "Studio"))
+        pickerView.inputList.append(PickerKeyValue(key: "100", text: "Loft"))
+        pickerView.inputList.append(PickerKeyValue(key: "1199", text: "House"))
+        
+        let selectedText = String(propertyInfo.propertyTypeCode.value)
+        let selectedIndex = pickerView.inputList.index{ $0.key == selectedText}
+        
+        if  let indexPos = selectedIndex {
+            pickerView.selectedItem = pickerView.inputList[indexPos]
+        }
+        
         
         let completionHandler : ()->Void = {
-            if let selectedYear = myYearPickerView.selectedYear
+            if let selectedItem = pickerView.selectedItem
             {
-                self.propertyInfo.buildYear.next(selectedYear)
+                self.propertyInfo.propertyTypeCode.next(Int(selectedItem.key)!)
+                self.propertyInfo.propertyTypeCodeText.next(selectedItem.text)
             }
         }
         
-        myYearPickerView.completionHandler = completionHandler
+        pickerView.completionHandler = completionHandler
         
-        present(myYearPickerView, animated: true, completion: nil)
+        present(pickerView, animated: true, completion: nil)
+        
+    }
+    
+    
+    @IBAction func buttonShowLiftPressed(_ sender: Any) {
+        
+        let pickerView = storyboard?.instantiateViewController(withIdentifier: "PickerViewController") as! PickerViewController
+        
+        pickerView.modalTransitionStyle = .coverVertical
+        pickerView.modalPresentationStyle = .overCurrentContext
+        
+        //
+        pickerView.inputList = [PickerKeyValue]()
+        pickerView.inputList.append(PickerKeyValue(key: "0", text: "No"))
+        pickerView.inputList.append(PickerKeyValue(key: "1", text: "Yes"))
+        
+        let selectedText = String(propertyInfo.lift.value)
+        let selectedIndex = pickerView.inputList.index{ $0.key == selectedText}
+        
+        if  let indexPos = selectedIndex {
+            pickerView.selectedItem = pickerView.inputList[indexPos]
+        }
+        
+        let completionHandler : ()->Void = {
+            if let selected = pickerView.selectedItem
+            {
+                self.propertyInfo.lift.next(Int(selected.key)!)
+                self.propertyInfo.liftText.next(selected.text)
+            }
+        }
+        
+        pickerView.completionHandler = completionHandler
+        
+        present(pickerView, animated: true, completion: nil)
+        
+    }
+    
+    @IBAction func buttonShowYearPickerPressed(_ sender: Any) {
+        
+        let pickerView = storyboard?.instantiateViewController(withIdentifier: "PickerViewController") as! PickerViewController
+
+        pickerView.modalTransitionStyle = .coverVertical
+        pickerView.modalPresentationStyle = .overCurrentContext
+        
+        //
+        let date = Date()
+        let calendar = Calendar.current
+        
+        let year = calendar.component(.year, from: date)
+        
+        let yearRange = (year + 2)
+
+        pickerView.inputList = (1900...yearRange).map{ PickerKeyValue(key: "\($0)", text: "\($0)" ) }
+        
+        let selectedText = String(propertyInfo.buildYear.value)
+        let selectedIndex = pickerView.inputList.index{ $0.key == selectedText}
+        
+        if  let indexPos = selectedIndex {
+            pickerView.selectedItem = pickerView.inputList[indexPos]
+        }
+        
+        let completionHandler : ()->Void = {
+            if let selected = pickerView.selectedItem
+            {
+                self.propertyInfo.buildYear.next(Int(selected.key)!)
+            }
+        }
+        
+        pickerView.completionHandler = completionHandler
+        
+        present(pickerView, animated: true, completion: nil)
         
         
     }
+    
+    
+    @IBAction func buttonEstimatePressed(_ sender: Any) {
+        print("Clicked")
+        estimate()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

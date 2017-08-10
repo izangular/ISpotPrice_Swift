@@ -28,8 +28,6 @@ class ConfirmPhotoViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-        
-        
     }
     
     
@@ -42,19 +40,22 @@ class ConfirmPhotoViewController: UIViewController {
     
     @IBAction func confirmPressed(_ sender: Any) {
         
-        self.dismiss(animated: false, completion: nil)
-        
-        if photoConfirmationHandler != nil {
-            photoConfirmationHandler!(true)
-        }
+        self.dismiss(animated: false, completion: {
+            
+            if self.photoConfirmationHandler != nil {
+                self.photoConfirmationHandler!(true)
+            }
+        })
     }
     
     @IBAction func backPressed(_ sender: Any) {
-        self.dismiss(animated: false, completion: nil)
         
-        if ( photoConfirmationHandler != nil ){
-            photoConfirmationHandler!(false)
-        }
+        self.dismiss(animated: false, completion: {
+            
+            if ( self.photoConfirmationHandler != nil ){
+                self.photoConfirmationHandler!(false)
+            }
+        })
     }
     
     /*

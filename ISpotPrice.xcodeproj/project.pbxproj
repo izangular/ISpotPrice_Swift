@@ -21,6 +21,10 @@
 		FF0611271F39DBA400BB3C33 /* PropertyInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0611261F39DBA400BB3C33 /* PropertyInfo.swift */; };
 		FF0611291F3AC9D500BB3C33 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0611281F3AC9D500BB3C33 /* SettingsViewController.swift */; };
 		FF06112B1F3ACD1100BB3C33 /* UIGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06112A1F3ACD1100BB3C33 /* UIGradientView.swift */; };
+		FF06112D1F3AFFF200BB3C33 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF06112C1F3AFFF200BB3C33 /* Storyboard.storyboard */; };
+		FF06112F1F3B019500BB3C33 /* PickerKeyValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF06112E1F3B019500BB3C33 /* PickerKeyValue.swift */; };
+		FF0611311F3C1D6200BB3C33 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0611301F3C1D6200BB3C33 /* TextField.swift */; };
+		FF0611331F3C4DB000BB3C33 /* FloatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0611321F3C4DB000BB3C33 /* FloatViewController.swift */; };
 		FF1507D21F25ADC200E2AAF4 /* PropertyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1507D11F25ADC200E2AAF4 /* PropertyData.swift */; };
 		FF419B751F24AE2600163E1A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF419B741F24AE2600163E1A /* AppDelegate.swift */; };
 		FF419B7A1F24AE2600163E1A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF419B781F24AE2600163E1A /* Main.storyboard */; };
@@ -47,6 +51,10 @@
 		FF0611261F39DBA400BB3C33 /* PropertyInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyInfo.swift; sourceTree = "<group>"; };
 		FF0611281F3AC9D500BB3C33 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		FF06112A1F3ACD1100BB3C33 /* UIGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIGradientView.swift; sourceTree = "<group>"; };
+		FF06112C1F3AFFF200BB3C33 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		FF06112E1F3B019500BB3C33 /* PickerKeyValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerKeyValue.swift; sourceTree = "<group>"; };
+		FF0611301F3C1D6200BB3C33 /* TextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
+		FF0611321F3C4DB000BB3C33 /* FloatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatViewController.swift; sourceTree = "<group>"; };
 		FF1507D11F25ADC200E2AAF4 /* PropertyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyData.swift; sourceTree = "<group>"; };
 		FF419B711F24AE2600163E1A /* ISpotPrice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ISpotPrice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF419B741F24AE2600163E1A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +103,7 @@
 				FF0611111F385E8E00BB3C33 /* LocationService.swift */,
 				FF0611191F39781100BB3C33 /* ValidationErrorType.swift */,
 				FF06112A1F3ACD1100BB3C33 /* UIGradientView.swift */,
+				FF0611301F3C1D6200BB3C33 /* TextField.swift */,
 			);
 			name = Library;
 			sourceTree = "<group>";
@@ -103,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				FF419B781F24AE2600163E1A /* Main.storyboard */,
+				FF06112C1F3AFFF200BB3C33 /* Storyboard.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -119,6 +129,7 @@
 				FF0611221F399F4800BB3C33 /* CameraViewController.swift */,
 				FF0611241F39D0DB00BB3C33 /* ConfirmPhotoViewController.swift */,
 				FF0611281F3AC9D500BB3C33 /* SettingsViewController.swift */,
+				FF0611321F3C4DB000BB3C33 /* FloatViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -138,6 +149,7 @@
 			children = (
 				FF06111C1F39933800BB3C33 /* User.swift */,
 				FF0611261F39DBA400BB3C33 /* PropertyInfo.swift */,
+				FF06112E1F3B019500BB3C33 /* PickerKeyValue.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -237,6 +249,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF0611051F347BEC00BB3C33 /* Launch Screen.storyboard in Resources */,
+				FF06112D1F3AFFF200BB3C33 /* Storyboard.storyboard in Resources */,
 				FF419B7C1F24AE2600163E1A /* Assets.xcassets in Resources */,
 				FF419B7A1F24AE2600163E1A /* Main.storyboard in Resources */,
 			);
@@ -302,12 +315,15 @@
 				FF1507D21F25ADC200E2AAF4 /* PropertyData.swift in Sources */,
 				FF0611071F37327500BB3C33 /* PickerViewController.swift in Sources */,
 				FF0611251F39D0DB00BB3C33 /* ConfirmPhotoViewController.swift in Sources */,
+				FF0611331F3C4DB000BB3C33 /* FloatViewController.swift in Sources */,
 				FF0611141F385FD200BB3C33 /* LocationViewController.swift in Sources */,
 				FF0611091F38235100BB3C33 /* RegistrationViewController.swift in Sources */,
 				FF0611291F3AC9D500BB3C33 /* SettingsViewController.swift in Sources */,
 				FF419B751F24AE2600163E1A /* AppDelegate.swift in Sources */,
 				FF419B871F24B04500163E1A /* CapturePropertyViewController.swift in Sources */,
 				FF06112B1F3ACD1100BB3C33 /* UIGradientView.swift in Sources */,
+				FF0611311F3C1D6200BB3C33 /* TextField.swift in Sources */,
+				FF06112F1F3B019500BB3C33 /* PickerKeyValue.swift in Sources */,
 				FF0611121F385E8E00BB3C33 /* LocationService.swift in Sources */,
 				FF06110F1F38366200BB3C33 /* CapturePhotoViewController.swift in Sources */,
 				FF0611231F399F4800BB3C33 /* CameraViewController.swift in Sources */,

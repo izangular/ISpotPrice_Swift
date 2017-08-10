@@ -15,6 +15,7 @@ class CapturePhotoViewController: UIViewController, MKMapViewDelegate, CLLocatio
     @IBOutlet weak var mapView: MKMapView!
     
     var locationManager = CLLocationManager()
+    var currentLocationCoordinates = CLLocationCoordinate2D()
     var annotation:  MKPointAnnotation?
     
     
@@ -82,10 +83,11 @@ class CapturePhotoViewController: UIViewController, MKMapViewDelegate, CLLocatio
             
             if image != nil {
                 
-                print ("Test")
+//                print ("Test")
                 
                 let propertyView = self.storyboard?.instantiateViewController(withIdentifier: "PropertyViewController") as! PropertyViewController
                 propertyView.image = image
+                propertyView.coordinates = self.currentLocationCoordinates
                 
                 self.present(propertyView, animated: true, completion: nil)
                 
@@ -121,6 +123,7 @@ class CapturePhotoViewController: UIViewController, MKMapViewDelegate, CLLocatio
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         let userLocation: CLLocation = locations[0]
+        self.currentLocationCoordinates = userLocation.coordinate
         
         if annotation == nil {
             annotation = MKPointAnnotation()

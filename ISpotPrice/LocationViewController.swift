@@ -31,7 +31,7 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("IN")
+//        print("IN")
         self.dismiss(animated: true, completion: nil)
     }
     

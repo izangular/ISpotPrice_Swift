@@ -19,9 +19,6 @@ open class LocationService {
                 return false
             case .authorizedAlways, .authorizedWhenInUse:
                 return true
-            default:
-                print("Location service - Something wrong with Location services ")
-                return false
             }
         } else {
             print("Location service - Serice is not enabled")

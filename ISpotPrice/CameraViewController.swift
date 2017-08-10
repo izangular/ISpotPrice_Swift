@@ -13,14 +13,10 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     var photoConfirmationHandler: ((UIImage?) -> Void)?
     
-    var session: AVCaptureSession?
-    var capturePhotoOutput: AVCapturePhotoOutput?
-    var videoPreviewLayer: AVCaptureVideoPreviewLayer?
+    private var session: AVCaptureSession?
+    private var capturePhotoOutput: AVCapturePhotoOutput?
+    private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     
-    var confirmationPressed : Bool = false
-    var capturedImage: UIImage!
-    
-    @IBOutlet weak var captureImageView: UIImageView!
     @IBOutlet weak var previewView: UIView!
     
     
@@ -29,18 +25,9 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
 
         // Do any additional setup after loading the view.
         
-        
         initialize()
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        if confirmationPressed && self.photoConfirmationHandler != nil {
-            print("Disappear")
-            self.photoConfirmationHandler!(capturedImage)
-        }
-    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -92,14 +79,13 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             capturePhotoOutput = AVCapturePhotoOutput()
             capturePhotoOutput?.isHighResolutionCaptureEnabled = true
             
-            //            stillImageOutput?.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
             
             if session!.canAddOutput(capturePhotoOutput) {
                 session!.addOutput(capturePhotoOutput)
                 
                 videoPreviewLayer = AVCaptureVideoPreviewLayer(session: session)
                 videoPreviewLayer!.videoGravity = AVLayerVideoGravityResizeAspect
-                //                videoPreviewLayer!.connection?.videoOrientation = AVCaptureVideoOrientation.portrait
+                videoPreviewLayer!.connection?.videoOrientation = AVCaptureVideoOrientation.portrait
                 previewView.layer.addSublayer(videoPreviewLayer!)
                 session!.startRunning()
                 
@@ -110,11 +96,12 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
     
     @IBAction func buttonCancelPressed(_ sender: Any) {
         
-        self.dismiss(animated: false, completion: nil)
+        self.dismiss(animated: false, completion: {
+            if self.photoConfirmationHandler != nil {
+                self.photoConfirmationHandler!(nil)
+            }
+        })
         
-        if self.photoConfirmationHandler != nil {
-            self.photoConfirmationHandler!(nil)
-        }
     }
 
     
@@ -146,14 +133,13 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
             return
         }
         
-        var localImage = UIImage.init(data: imageData, scale: 1.0)
+        let localImage = UIImage.init(data: imageData, scale: 1.0)
         
         if let image = localImage {
-//            self.captureImageView.image = image
+            
             let confirmPhotoView = storyboard?.instantiateViewController(withIdentifier: "ConfirmPhotoViewController") as! ConfirmPhotoViewController
             
             let viewController = self as CameraViewController
-            self.capturedImage = image
             confirmPhotoView.image = image
             
             confirmPhotoView.photoConfirmationHandler = { (confirm) in
@@ -162,9 +148,11 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate {
                 if self.photoConfirmationHandler != nil && confirm == true {
                     
                     self.session!.stopRunning()
-                    viewController.dismiss(animated: true, completion: nil)
-                    
-                    self.confirmationPressed = true
+                    viewController.dismiss(animated: true, completion: {
+                        if self.photoConfirmationHandler != nil {
+                            self.photoConfirmationHandler!(image)
+                        }
+                    })
                 }
             }
             

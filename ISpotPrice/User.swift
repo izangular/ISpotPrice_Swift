@@ -11,7 +11,7 @@ import Bond
 
 class User {
     
-    let deviceId = "1233049494930349"
+    static let deviceId = "1233049494930349"
     
     //Binding
     let firstName = Observable<String?>("")

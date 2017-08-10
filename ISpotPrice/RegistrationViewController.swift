@@ -151,21 +151,19 @@ class RegistrationViewController: UIViewController, UITextFieldDelegate {
                     
                     let alert = UIAlertController(title: "Registration", message: "Registered sucessfully", preferredStyle: .alert)
                     
-                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+                        
+                        self.dismiss(animated: false, completion: {
+                            if ( self.completionHandler != nil) {
+                                self.completionHandler!()
+                            }
+                        })
+                    })
                     
                     alert.addAction(okAction)
                     
-                    self.present(alert, animated: true, completion:  {
-                        
-                        if ( self.completionHandler != nil) {
-                            self.completionHandler!()
-                        }
-                        
-                        self.dismiss(animated: false, completion: nil)
-                        
-                    })
-                    
-                    
+                    self.present(alert, animated: true, completion: nil)
+        
                 } else {
                     
                     let alert = UIAlertController(title: "Registration", message: "Registration failure", preferredStyle: .alert)
@@ -206,7 +204,7 @@ extension UITextField{
 //        self.layer.addSublayer(border)
 //        self.layer.masksToBounds = true
         
-        var bottomLine = CALayer()
+        let bottomLine = CALayer()
         bottomLine.frame = CGRect(x: 0.0, y: self.frame.height-1, width: self.frame.width-20, height: 1.0)
 //        bottomLine.frame = CGrec(x: 0.0, y: x)
         bottomLine.backgroundColor = UIColor.white.cgColor

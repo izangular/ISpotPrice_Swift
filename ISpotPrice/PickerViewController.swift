@@ -12,7 +12,10 @@ class PickerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
 
     var completionHandler: ((Void) -> Void)?
     
-    var selectedYear : Int?
+    var selectedItem : PickerKeyValue?
+    var inputList = [PickerKeyValue]()
+    
+    @IBOutlet weak var mPicker: UIPickerView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +23,19 @@ class PickerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         view.backgroundColor = UIColor.clear
         view.isOpaque = false
         // Do any additional setup after loading the view.
+        
+        //select Item
+        if let selected = selectedItem {
+            
+            let selectedIndex = inputList.index{ $0 === selected}
+            
+            if  let indexPos = selectedIndex {
+                mPicker.selectRow(indexPos, inComponent: 0, animated: false)
+            }
+            else {
+                selectedItem = nil
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,32 +47,18 @@ class PickerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     @IBAction func closePressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         
-        let date = Date()
-        let calendar = Calendar.current
-        
-        let year = calendar.component(.year, from: date)
-        
-        return (year + 2) - 1900
+            return (inputList.count)
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-//        self.labeYear.text = "\(1900+row)"
-        selectedYear = 1900 + row
+
+        selectedItem = inputList[row]
         
         if let completionHandler = completionHandler{
             dismiss(animated: true, completion: completionHandler)
@@ -68,9 +70,7 @@ class PickerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
-//        self.pickerYear.isHidden = true
-        
-        return "\(row + 1900)"
+        return inputList[row].text
     }
     
 

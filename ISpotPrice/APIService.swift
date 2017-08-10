@@ -34,7 +34,7 @@ class APIService {
                                   "lastName": user.lastName.value!,
                                   "email": user.email.value!,
                                   "phone": user.phone.value!,
-                                  "deviceId": user.deviceId]
+                                  "deviceId": User.deviceId]
         
         do{
             urlRequest.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
@@ -99,25 +99,21 @@ class APIService {
                     case .success:
                         if let jsonData = response.result.value{
 //                            print (jsonData)
-                            do {
                                 
-                                if let dictionary = jsonData as? [String: AnyObject]{
+                            if let dictionary = jsonData as? [String: AnyObject]{
 //                                    print(dictionary)
-                                    if let tokenType = dictionary["token_type"] as? String{
-                                        statStatusCode = 0
-                                        statStatusMessage = "Success"
-                                        statToken = "\(tokenType)"
-                                    }
-                                    if let token = dictionary["token"] as? String{
-                                        statStatusCode = 0
-                                        statStatusMessage = "Success"
-                                        statToken = "\(statToken) \(token)"
-                                    }
+                                if let tokenType = dictionary["token_type"] as? String{
+                                    statStatusCode = 0
+                                    statStatusMessage = "Success"
+                                    statToken = "\(tokenType)"
                                 }
-                            } catch {
-                                statStatusCode = 0
-                                statStatusMessage = "Error JSON"
+                                if let token = dictionary["token"] as? String{
+                                    statStatusCode = 0
+                                    statStatusMessage = "Success"
+                                    statToken = "\(statToken) \(token)"
+                                }
                             }
+                            
                     }
                     case .failure( _):
                         
@@ -159,44 +155,293 @@ class APIService {
                 switch response.result{
                 case .success:
                     if let jsonData = response.result.value{
-                        print (jsonData)
-                        do {
+//                        print (jsonData)
+                        
+                        if let dictionary = jsonData as? [String: AnyObject]{
                             
-                            if let dictionary = jsonData as? [String: AnyObject]{
-                                
-                                if let jZip = dictionary["zip"] as? String{
-                                    propertyData.zip.next(jZip)
-                                }
-                                if let jTown = dictionary["town"] as? String{
-                                    propertyData.town.next(jTown)
-                                }
-                                if let jStreet = dictionary["street"] as? String{
-                                    propertyData.street.next(jStreet)
-                                }
-                                if let jCountry = dictionary["country"] as? String{
-                                    propertyData.country.next(jCountry)
-                                }
-                                if let jCategory = dictionary["category"] as? String{
-                                    propertyData.category.next(jCategory)
-                                }
-                                if let jAppraisalValue = dictionary["appraisalValue"] as? Float{
-                                    propertyData.appraisalValue.next(jAppraisalValue)
-                                }
-                                if let jRating = dictionary["rating"] as? Float{
-                                    propertyData.rating.next(jRating)
-                                }
-                                if let jCatCode = dictionary["catCode"] as? Int{
-                                    propertyData.catCode.next(jCatCode)
-                                }
+                            if let jZip = dictionary["zip"] as? String{
+                                propertyData.zip.next(jZip)
                             }
-                        } catch {
+                            if let jTown = dictionary["town"] as? String{
+                                propertyData.town.next(jTown)
+                            }
+                            if let jStreet = dictionary["street"] as? String{
+                                propertyData.street.next(jStreet)
+                            }
+                            if let jCountry = dictionary["country"] as? String{
+                                propertyData.country.next(jCountry)
+                            }
+                            if let jCategory = dictionary["category"] as? String{
+                                propertyData.category.next(jCategory)
+                            }
+                            if let jAppraisalValue = dictionary["appraisalValue"] as? Float{
+                                propertyData.appraisalValue.next(jAppraisalValue)
+                            }
+                            if let jRating = dictionary["rating"] as? Float{
+                                propertyData.rating.next(jRating)
+                            }
+                            if let jCatCode = dictionary["catCode"] as? Int{
+                                propertyData.catCode.next(jCatCode)
+                            }
                         }
+                        
                     }
                 case .failure( _):
                     debugPrint(response)
                     
                     statStatus = -1
                     print("error")
+                }
+                
+                completion(statStatus)
+        }
+    }
+    
+    func saveFile(text: String)
+    {
+        let file = "file.txt" //this is the file. we will write to and read from it
+        
+//        let text = "some text" //just a text
+        
+        if let dir = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first {
+            
+            let path = dir.appendingPathComponent(file)
+            
+            //writing
+            do {
+                try text.write(to: path, atomically: false, encoding: String.Encoding.utf8)
+            }
+            catch {/* error handling here */
+                print("erro")
+            }
+            
+            //reading
+//            do {
+//                let text2 = try String(contentsOf: path, encoding: String.Encoding.utf8)
+//            }
+//            catch {/* error handling here */}
+        }
+    }
+    
+    func callOfferedRentDefaultService(propertyData: PropertyInfo, completion: @escaping (_ status: Int) -> ()){
+        var statStatus: Int = 0
+        
+        let url = URL(string: intUrl + "/apps/v1/defaultOfferedRentAppraisal")
+        var urlRequest = URLRequest(url: url!)
+        urlRequest.httpMethod = "POST"
+        
+//        let params: Parameters = [ "imageBase64": "base",
+        let params: Parameters = [ "imageBase64": "data:image/jpeg;base64, \(propertyData.imageBase64String!)",
+                                  "lat": propertyData.latitude.value,
+                                  "lng": propertyData.longitude.value,
+                                  "deviceId": User.deviceId]
+        
+        saveFile(text: "data:image/jpeg;base64, \(propertyData.imageBase64String!)")
+//        debugPrint(params)
+
+        do{
+            urlRequest.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
+        } catch {
+            
+        }
+        
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
+//        urlRequest.setValue(propertyData.authToken, forHTTPHeaderField: "Authorization")
+        
+        let manager = Alamofire.SessionManager.default
+        manager.session.configuration.timeoutIntervalForRequest = 2000
+        
+        manager.request(urlRequest)
+            .validate()
+            .responseJSON{ response in
+                print (response.request!)
+                print(response.response!)
+                print(response.result)
+                
+                switch response.result{
+                case .success:
+                    if let jsonData = response.result.value{
+                       // print (jsonData)
+                        
+                            if let dictionary = jsonData as? [String: AnyObject]{
+                                
+                                if let value = dictionary["ortId"] as? Int{
+                                    propertyData.ortId.next(value)
+                                }
+                                if let value = dictionary["zip"] as? String{
+                                    propertyData.zip.next(value)
+                                }
+                                if let value = dictionary["town"] as? String{
+                                    propertyData.town.next(value)
+                                }
+                                if let value = dictionary["street"] as? String{
+                                    propertyData.street.next(value)
+                                }
+                                if let value = dictionary["country"] as? String{
+                                    propertyData.country.next(value)
+                                }
+                                if let value = dictionary["category"] as? String{
+                                    propertyData.category.next(value)
+                                }
+                                if let value = dictionary["catCode"] as? Int{
+                                    propertyData.catCode.next(value)
+                                }
+                                if let value = dictionary["objectType"] as? String{
+                                    propertyData.propertyTypeCodeText.next(value)
+                                }
+                                if let value = dictionary["objectTypeCode"] as? Int{
+                                    propertyData.propertyTypeCode.next(value)
+                                }
+                                if let value = dictionary["appraisalValue"] as? Float{
+                                    propertyData.appraisalValue.next(value)
+                                }
+                                if let value = dictionary["microRating"] as? Float{
+                                    propertyData.rating.next(value)
+                                }
+                                if let value = dictionary["surfaceContract"] as? Float{
+                                    propertyData.surfaceContract.next(value)
+                                }
+                                if let value = dictionary["roomNb"] as? Float{
+                                    propertyData.roomNb.next(value)
+                                }
+                                if let value = dictionary["buildYear"] as? Int{
+                                    propertyData.buildYear.next(value)
+                                }
+                                if let value = dictionary["lift"] as? Int{
+                                    propertyData.lift.next(value)
+                                }
+                        }
+                    }
+                case .failure( let error):
+                    debugPrint(response)
+                    
+                    statStatus = -1
+                    print("error")
+                    print(error._code)
+                    print(error.localizedDescription)
+                    
+                    if let data = response.data {
+                        let json = String(data: data, encoding: String.Encoding.utf8)
+                        print(json!)
+                    }
+                }
+                
+                completion(statStatus)
+        }
+    }
+    
+    func callOfferedRentService(propertyData: PropertyInfo, completion: @escaping (_ status: Int) -> ()){
+        var statStatus: Int = 0
+        
+        let url = URL(string: intUrl + "/apps/v1/OfferedRentAppraisal")
+        var urlRequest = URLRequest(url: url!)
+        urlRequest.httpMethod = "POST"
+        
+        let addressParams: Parameters = [ "address": "\(propertyData.street.value), \(propertyData.zip.value) \(propertyData.town.value), \(propertyData.country.value)",
+                                        "street": propertyData.street.value,
+                                        "zip": propertyData.zip.value,
+                                        "town": propertyData.town.value,
+                                        "country": "\(propertyData.country.value)",
+                                        "lat": "\(propertyData.latitude.value)",
+                                        "lng": "\(propertyData.longitude.value)"]
+        
+        
+        let params: Parameters = ["ortId": "\(propertyData.ortId.value)",
+                                  "externalKey": "RPI_TEST",
+                                  "categoryCode": "\(propertyData.catCode.value)",
+                                  "objectTypeCode": "\(propertyData.propertyTypeCode.value)",
+                                  "qualityMicro": "\(propertyData.rating.value)",
+                                  "surfaceContract": "\(Int(propertyData.surfaceContract.value))",
+                                  "buildYear": "\(propertyData.buildYear.value)",
+                                  "roomNb": "\(propertyData.roomNb.value)",
+                                  "lift": "\(propertyData.lift.value)",
+                                  "deviceId": "\(User.deviceId)",
+                                  "address": addressParams]
+        
+        debugPrint(params)
+        
+        do{
+            urlRequest.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
+        } catch {
+            
+        }
+        
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
+        urlRequest.setValue(propertyData.authToken, forHTTPHeaderField: "Authorization")
+        
+        Alamofire.request(urlRequest)
+            .validate()
+            .responseJSON{ response in
+                print (response.request!)
+                //                print(response.response!)
+                //                print(response.result)
+                switch response.result{
+                case .success:
+                    if let jsonData = response.result.value{
+                        // print (jsonData)
+                        
+                        if let dictionary = jsonData as? [String: AnyObject]{
+                            
+                            if let value = dictionary["ortId"] as? Int{
+                                propertyData.ortId.next(value)
+                            }
+                            if let value = dictionary["zip"] as? String{
+                                propertyData.zip.next(value)
+                            }
+                            if let value = dictionary["town"] as? String{
+                                propertyData.town.next(value)
+                            }
+                            if let value = dictionary["street"] as? String{
+                                propertyData.street.next(value)
+                            }
+                            if let value = dictionary["country"] as? String{
+                                propertyData.country.next(value)
+                            }
+                            if let value = dictionary["category"] as? String{
+                                propertyData.category.next(value)
+                            }
+                            if let value = dictionary["catCode"] as? Int{
+                                propertyData.catCode.next(value)
+                            }
+                            if let value = dictionary["objectType"] as? String{
+                                propertyData.propertyTypeCodeText.next(value)
+                            }
+                            if let value = dictionary["objectTypeCode"] as? Int{
+                                propertyData.propertyTypeCode.next(value)
+                            }
+                            if let value = dictionary["appraisalValue"] as? Float{
+                                propertyData.appraisalValue.next(value)
+                            }
+                            if let value = dictionary["microRating"] as? Float{
+                                propertyData.rating.next(value)
+                            }
+                            if let value = dictionary["surfaceContract"] as? Float{
+                                propertyData.surfaceContract.next(value)
+                            }
+                            if let value = dictionary["roomNb"] as? Float{
+                                propertyData.roomNb.next(value)
+                            }
+                            if let value = dictionary["buildYear"] as? Int{
+                                propertyData.buildYear.next(value)
+                            }
+                            if let value = dictionary["lift"] as? Int{
+                                propertyData.lift.next(value)
+                            }
+                        }
+                    }
+                case .failure( let error):
+                    debugPrint(response)
+                    
+                    if let data = response.data {
+                        let json = String(data: data, encoding: String.Encoding.utf8)
+                        print(json!)
+                    }
+                    statStatus = -1
+                    print("error")
+                    print(error._code)
+                    print(error.localizedDescription)
                 }
                 
                 completion(statStatus)
@@ -219,7 +464,7 @@ class APIService {
                                   "buildYear": Int(propertyData.vBuildYear),
                                   "microRating": propertyData.vRating,
                                   "catCode": Int(propertyData.vCatCode),
-                                  "zip": Int(propertyData.vZip),
+//                                  "zip": Int(propertyData.vZip) ?? default "",
                                   "town": propertyData.vTown,
                                   "street": propertyData.vStreet,
                                   "country": propertyData.vCountry]
@@ -243,9 +488,7 @@ class APIService {
                 switch response.result{
                 case .success:
                     if let jsonData = response.result.value{
-                        print (jsonData)
-                        do {
-                            
+//                        print (jsonData)
                             if let dictionary = jsonData as? [String: AnyObject]{
                                 
                                 if let jZip = dictionary["zip"] as? String{
@@ -273,8 +516,6 @@ class APIService {
                                     propertyData.catCode.next(jCatCode)
                                 }
                             }
-                        } catch {
-                        }
                     }
                 case .failure( _):
                     debugPrint(response)
