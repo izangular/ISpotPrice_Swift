@@ -199,11 +199,11 @@ class APIService {
     
     func saveFile(text: String)
     {
-        let file = "file.txt" //this is the file. we will write to and read from it
+        let file = "file1.txt" //this is the file. we will write to and read from it
         
 //        let text = "some text" //just a text
         
-        if let dir = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first {
+        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
             
             let path = dir.appendingPathComponent(file)
             
@@ -231,12 +231,12 @@ class APIService {
         urlRequest.httpMethod = "POST"
         
 //        let params: Parameters = [ "imageBase64": "base",
-        let params: Parameters = [ "imageBase64": "data:image/jpeg;base64, \(propertyData.imageBase64String!)",
+        let params: Parameters = [ "imageBase64": "\(propertyData.imageBase64String!)",
                                   "lat": propertyData.latitude.value,
                                   "lng": propertyData.longitude.value,
                                   "deviceId": User.deviceId]
         
-        saveFile(text: "data:image/jpeg;base64, \(propertyData.imageBase64String!)")
+//        saveFile(text: "data:image/jpeg;base64, \(propertyData.imageBase64String!)")
 //        debugPrint(params)
 
         do{
@@ -255,9 +255,9 @@ class APIService {
         manager.request(urlRequest)
             .validate()
             .responseJSON{ response in
-                print (response.request!)
-                print(response.response!)
-                print(response.result)
+//                print (response.request!)
+//                print(response.response!)
+//                print(response.result)
                 
                 switch response.result{
                 case .success:
@@ -322,8 +322,9 @@ class APIService {
                     print(error.localizedDescription)
                     
                     if let data = response.data {
-                        let json = String(data: data, encoding: String.Encoding.utf8)
-                        print(json!)
+                        if let json = String(data: data, encoding: String.Encoding.utf8) {
+                            print(json)
+                        }
                     }
                 }
                 

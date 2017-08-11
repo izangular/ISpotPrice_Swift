@@ -16,6 +16,7 @@ class PropertyInfo{
     
     //Binding
     var imageBase64: NSData?
+    var imageBase64PngString: String?
     var imageBase64String: String?
     let latitude = Observable<Double>(0)
     let longitude = Observable<Double>(0)

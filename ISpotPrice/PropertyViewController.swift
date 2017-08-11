@@ -106,11 +106,28 @@ class PropertyViewController: UIViewController, MKMapViewDelegate, UIScrollViewD
         
         apiService.callOfferedRentDefaultService(propertyData: propertyInfo) { (status) in
             
-            if status == 0 {
-                self.buttonEstimate.isEnabled = true
-            }
             
             SwiftOverlays.removeAllBlockingOverlays()
+            
+            if status == 0 {
+                self.buttonEstimate.isEnabled = true
+                
+            } else {
+                
+                let alert = UIAlertController(title: "Property view", message: "Service error", preferredStyle: .alert)
+                
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+                    
+                    self.dismiss(animated: false, completion: {
+                       
+                    })
+                })
+                
+                alert.addAction(okAction)
+                
+                self.present(alert, animated: true, completion: nil)
+            }
+            
         }
     }
     
@@ -123,26 +140,63 @@ class PropertyViewController: UIViewController, MKMapViewDelegate, UIScrollViewD
         
         apiService.callOfferedRentService(propertyData: propertyInfo) { (status) in
             
-            if status == 0 {
-                print("Enabled")
-                self.buttonEstimate.isEnabled = true
-            }
-            
             SwiftOverlays.removeAllBlockingOverlays()
+            
+            if status == 0 {
+//                print("Enabled")
+                self.buttonEstimate.isEnabled = true
+            } else {
+                
+                let alert = UIAlertController(title: "Property view", message: "Service error", preferredStyle: .alert)
+                
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+                    
+                })
+                
+                alert.addAction(okAction)
+                
+                self.present(alert, animated: true, completion: nil)
+            }
         }
+    }
+    
+    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage! {
+        
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
+        
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
+        image.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
     }
     
     func bindData()
     {
         propertyInfo = PropertyInfo()
         
-        if let imageData = UIImageJPEGRepresentation(image, 1.0) {
-            let base64Image = imageData.base64EncodedString()
+        if let newImage = resizeImage(image: image, newWidth: 300){
             
-            propertyInfo.imageBase64String = base64Image
+            imageView.image = newImage
             
-//            propertyInfo.imageBase64 = base64Image as NSData
+            if let imageData = UIImageJPEGRepresentation(newImage, 1.0) {
+                let base64Image = imageData.base64EncodedString()
+                
+                propertyInfo.imageBase64String = base64Image
+//                print(base64Image.characters.count)
+                
+    //            propertyInfo.imageBase64 = base64Image as NSData
+            }
         }
+        
+//        if let imageData = UIImagePNGRepresentation(image) {
+//            let base64Image = imageData.base64EncodedString(options: .lineLength64Characters)
+//            
+//            propertyInfo.imageBase64PngString = base64Image
+//        }
         
         imageView.image = image
         
@@ -202,15 +256,6 @@ class PropertyViewController: UIViewController, MKMapViewDelegate, UIScrollViewD
                 return 0
             }
         }.bind(to: propertyInfo.catCode)
-//
-//        segmentedPropertyCategory.reactive.map {
-//            switch $0 {
-//            case 0:
-//                return 5
-//            case 1:
-//                return 6
-//            }
-//        }.bind(propertyInfo.catCode)
     }
 
     func setMapView()
